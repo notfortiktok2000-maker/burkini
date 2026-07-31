@@ -1,17 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --color-brand-navy: #0F172A;
-  --color-brand-teal: #115E59;
-  --color-brand-sand: #F5F5F4;
-  --color-brand-brown: #78350F;
-  --color-brand-accent: #D97706;
+  --font-serif: "Montserrat", ui-serif, Georgia, serif;
+  
+  --color-brand-navy: #1C1917;
+  --color-brand-teal: #E6DFD3;
+  --color-brand-sand: #F8F5EF;
+  --color-brand-brown: #7A2735;
+  --color-brand-accent: #B8A48E;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 }
 
 body {
   font-family: var(--font-sans);
+  font-weight: 600;
   background-color: var(--color-brand-sand);
   color: var(--color-brand-navy);
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif {
+  font-family: var(--font-sans);
 }

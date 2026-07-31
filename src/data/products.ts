@@ -1,3 +1,14 @@
+export interface ProductColor {
+  id: string;
+  name: { fr: string; ar: string };
+  value: string;
+  images: {
+    front: string;
+    angle: string;
+    detail?: string;
+  };
+}
+
 export interface Product {
   id: string;
   slug: string;
@@ -5,89 +16,50 @@ export interface Product {
   hook: { fr: string; ar: string };
   description: { fr: string; ar: string };
   price: number;
-  originalPrice: number;
-  images: {
-    front: string;
-    angle: string;
-    detail?: string;
-  };
+  originalPrice: number | null;
+  colors: ProductColor[];
   sizes: string[];
   stockCount: number;
 }
 
 export const products: Product[] = [
   {
-    id: "prod_1",
-    slug: "swim-tunic-set",
-    name: { fr: "Ensemble Tunique de Bain", ar: "طقم سترة السباحة" },
-    hook: { fr: "Couvrance parfaite et style", ar: "تغطية مثالية وأناقة" },
+    id: "prod_alma",
+    slug: "ensemble-alma",
+    name: { fr: "Ensemble Alma", ar: "طقم ألما" },
+    hook: { 
+      fr: "L’ensemble fluide qui vous habille en quelques secondes.", 
+      ar: "الطقم الانسيابي الذي يجهزك في ثوانٍ." 
+    },
     description: { 
-      fr: "Tunique de bain avec pantalon assorti. Conçu pour allier confort et modestie à la plage.",
-      ar: "سترة سباحة مع سروال متناسق. مصمم ليجمع بين الراحة والحشمة على الشاطئ."
+      fr: "L’Ensemble Alma réunit une coupe fluide, un imprimé affirmé et le confort d’une tenue facile à porter. Son haut sans manches tombe légèrement sous le nombril, tandis que son pantalon large à taille élastiquée accompagne naturellement vos mouvements. Portez les deux pièces ensemble pour un look immédiatement coordonné, ou séparément avec les essentiels de votre garde-robe.",
+      ar: "يجمع طقم ألما بين القصة الانسيابية والطبعة الجريئة والراحة التي توفرها الملابس السهلة الارتداء. قميصه بدون أكمام ينسدل برفق أسفل السرة، بينما يتكيف السروال الواسع ذو الخصر المطاطي مع حركاتك بشكل طبيعي. ارتدِ القطعتين معًا لإطلالة متناسقة، أو كل قطعة على حدة لتنسيقات مختلفة."
     },
-    price: 289,
-    originalPrice: 409,
-    images: {
-      front: "https://i.ibb.co/jPVFyJS6/Woman-with-hand-on-hip-202607082242-1.jpg",
-      angle: "https://i.ibb.co/N2qNFdLt/Woman-walking-toward-surfboards-2-K-202607082242.jpg",
-      detail: "https://i.ibb.co/JFpTX2nK/Woman-in-swim-tunic-2-K-202607082218.jpg",
-    },
-    sizes: ["M", "L", "XL", "XXL"],
-    stockCount: 4,
-  },
-  {
-    id: "prod_2",
-    slug: "swim-set-ocean",
-    name: { fr: "Ensemble de Bain Océan", ar: "طقم السباحة المحيط" },
-    hook: { fr: "Léger et séchage rapide", ar: "خفيف وسريع الجفاف" },
-    description: { 
-      fr: "Ensemble complet pour une baignade en toute tranquillité. Tissu respirant qui ne colle pas.",
-      ar: "طقم كامل لسباحة مريحة. قماش يسمح بمرور الهواء ولا يلتصق بالجسم."
-    },
-    price: 289,
-    originalPrice: 409,
-    images: {
-      front: "https://i.ibb.co/Fk7QMz9M/Woman-in-swim-set-on-202607082218.jpg",
-      angle: "https://i.ibb.co/QWDKSgJ/Woman-in-tie-dye-tunic-beach-202607082251.jpg",
-      detail: "https://i.ibb.co/PvQPbLq4/Woman-standing-at-shoreline-horizon-202607082242.jpg",
-    },
-    sizes: ["M", "L", "XL", "XXL"],
-    stockCount: 7,
-  },
-  {
-    id: "prod_3",
-    slug: "brookini-with-hat",
-    name: { fr: "Burkini Azur", ar: "بوركيني أزور" },
-    hook: { fr: "Protection solaire élégante", ar: "حماية أنيقة من الشمس" },
-    description: { 
-      fr: "Le Brookini idéal avec son chapeau assorti. Parfait pour les longues journées ensoleillées.",
-      ar: "البروكيني المثالي مع قبعته المتناسقة. مثالي للأيام المشمسة الطويلة."
-    },
-    price: 289,
-    originalPrice: 409,
-    images: {
-      front: "https://i.ibb.co/9H6pWStx/Woman-wearing-brookini-and-hat-202607082236.jpg",
-      angle: "https://i.ibb.co/PvcS5J34/Woman-seated-on-lounger-2-K-202607082236.jpg",
-    },
-    sizes: ["M", "L", "XL", "XXL"],
-    stockCount: 2,
-  },
-  {
-    id: "prod_4",
-    slug: "lounge-swim-set",
-    name: { fr: "Ensemble Lounge", ar: "طقم الاسترخاء" },
-    hook: { fr: "Confort absolu au bord de l'eau", ar: "راحة مطلقة على الشاطئ" },
-    description: { 
-      fr: "Un ensemble polyvalent, à porter dans l'eau comme au bord de la piscine.",
-      ar: "طقم متعدد الاستخدامات، يمكن ارتداؤه في الماء أو بجانب المسبح."
-    },
-    price: 289,
-    originalPrice: 409,
-    images: {
-      front: "https://i.ibb.co/NMX84B3/Woman-standing-near-lounge-chair-202607082242.jpg",
-      angle: "https://i.ibb.co/JjHSJshs/Woman-in-floral-outfit-seated-202607082218.jpg",
-    },
-    sizes: ["M", "L", "XL", "XXL"],
-    stockCount: 5,
+    price: 199,
+    originalPrice: null,
+    colors: [
+      {
+        id: "bleu-floral",
+        name: { fr: "Bleu floral", ar: "أزرق زهري" },
+        value: "#4968A8",
+        images: {
+          front: "https://i.ibb.co/VppFV0KM/Chat-GPT-Image-Jul-31-2026-12-36-06-AM.png",
+          angle: "https://i.ibb.co/VppFV0KM/Chat-GPT-Image-Jul-31-2026-12-36-06-AM.png",
+          detail: "https://i.ibb.co/VppFV0KM/Chat-GPT-Image-Jul-31-2026-12-36-06-AM.png",
+        }
+      },
+      {
+        id: "bordeaux-floral",
+        name: { fr: "Bordeaux floral", ar: "عنابي زهري" },
+        value: "#7A2735",
+        images: {
+          front: "https://i.ibb.co/5WCw3JWC/Chat-GPT-Image-Jul-31-2026-12-35-54-AM-1.png",
+          angle: "https://i.ibb.co/5WCw3JWC/Chat-GPT-Image-Jul-31-2026-12-35-54-AM-1.png",
+          detail: "https://i.ibb.co/5WCw3JWC/Chat-GPT-Image-Jul-31-2026-12-35-54-AM-1.png",
+        }
+      }
+    ],
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    stockCount: 15,
   }
 ];

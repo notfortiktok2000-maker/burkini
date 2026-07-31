@@ -102,7 +102,7 @@ export default function CartDrawer() {
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">{t("product.size")}: {item.size}</p>
+                      <p className="text-xs text-gray-500 mt-1">{item.colorName} • {t("product.size")}: {item.size}</p>
                       <p className="font-semibold text-brand-navy mt-1">{item.price} MAD</p>
                     </div>
                     <div className="flex items-center gap-3 mt-2">

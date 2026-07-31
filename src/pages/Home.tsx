@@ -83,8 +83,8 @@ export default function Home() {
       >
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=2000&ar=16:9"
-            alt="Modest Swimwear Hero"
+            src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=2000&ar=16:9"
+            alt="Elegant Women's Clothing Hero"
             className="w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-black/40"></div>
@@ -144,12 +144,12 @@ export default function Home() {
             <Link key={product.id} to={`/product/${product.slug}`} className="group block">
               <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-4 rounded-xl shadow-sm">
                 <img
-                  src={product.images.front}
+                  src={product.colors[0].images.front}
                   alt={product.name[language]}
                   className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0 z-10"
                 />
                 <img
-                  src={product.images.angle}
+                  src={product.colors[0].images.angle}
                   alt={`${product.name[language]} angle`}
                   className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700"
                 />

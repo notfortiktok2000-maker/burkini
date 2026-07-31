@@ -17,6 +17,7 @@ export default function Product() {
   
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
+  const [selectedColor, setSelectedColor] = useState<string>("");
   const [activeImage, setActiveImage] = useState(0);
   const [error, setError] = useState("");
   
@@ -31,6 +32,10 @@ export default function Product() {
     setError("");
 
     if (!product) return;
+    
+    if (!selectedColor && product.colors) {
+      setSelectedColor(product.colors[0].id);
+    }
 
     gsap.fromTo(
       imagesRef.current,
@@ -42,7 +47,7 @@ export default function Product() {
       { x: language === "ar" ? -30 : 30, autoAlpha: 0 },
       { x: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out", delay: 0.2 }
     );
-  }, [product, slug, language]);
+  }, [product, slug, language, selectedColor]);
 
   if (!product) {
     return (
@@ -57,7 +62,8 @@ export default function Product() {
     );
   }
 
-  const imagesList = [product.images.front, product.images.angle, product.images.detail].filter(Boolean) as string[];
+  const currentColor = product.colors?.find(c => c.id === selectedColor) || product.colors?.[0];
+  const imagesList = currentColor ? Array.from(new Set([currentColor.images.front, currentColor.images.angle, currentColor.images.detail].filter(Boolean))) as string[] : [];
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -70,8 +76,10 @@ export default function Product() {
       productId: product.id,
       name: product.name[language],
       price: product.price,
-      image: product.images.front,
+      image: currentColor.images.front,
       size: selectedSize,
+      colorId: currentColor.id,
+      colorName: currentColor.name[language],
       quantity,
     });
   };
@@ -156,6 +164,29 @@ export default function Product() {
           </div>
 
           <div className="mb-8">
+            <h3 className="font-bold uppercase tracking-wider text-sm mb-4">
+              <span>{language === 'ar' ? 'اللون' : 'Couleur'}</span>
+            </h3>
+            <div className="flex gap-4">
+              {product.colors?.map((color) => (
+                <button
+                  key={color.id}
+                  onClick={() => setSelectedColor(color.id)}
+                  className={cn(
+                    "relative w-16 h-20 rounded-xl overflow-hidden border-2 transition-all",
+                    selectedColor === color.id
+                      ? "border-brand-navy shadow-md scale-105"
+                      : "border-transparent hover:border-gray-300"
+                  )}
+                  title={color.name[language]}
+                >
+                  <img src={color.images.front} alt={color.name[language]} className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8">
             <h3 className="font-bold uppercase tracking-wider text-sm mb-4 flex justify-between">
               <span>{t("product.size")}</span>
               <button className="text-gray-500 underline text-xs normal-case">{t("product.size_guide")}</button>
@@ -224,12 +255,12 @@ export default function Product() {
             <div key={p.id} className="group block cursor-pointer" onClick={() => navigate(`/product/${p.slug}`)}>
               <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-4 rounded-xl shadow-sm">
                 <img
-                  src={p.images.front}
+                  src={p.colors[0].images.front}
                   alt={p.name[language]}
                   className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0 z-10"
                 />
                 <img
-                  src={p.images.angle}
+                  src={p.colors[0].images.angle}
                   alt={`${p.name[language]} angle`}
                   className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700"
                 />

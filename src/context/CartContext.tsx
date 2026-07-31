@@ -1,12 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 export interface CartItem {
-  id: string; // unique ID for cart item, usually productId + size
+  id: string; // unique ID for cart item, usually productId + size + colorId
   productId: string;
   name: string;
   price: number;
   image: string;
   size: string;
+  colorId: string;
+  colorName: string;
   quantity: number;
 }
 
@@ -43,7 +45,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const addToCart = (newItem: Omit<CartItem, "id">) => {
     setItems((prev) => {
       const existingItemIndex = prev.findIndex(
-        (item) => item.productId === newItem.productId && item.size === newItem.size
+        (item) => item.productId === newItem.productId && item.size === newItem.size && item.colorId === newItem.colorId
       );
 
       if (existingItemIndex >= 0) {
@@ -52,7 +54,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         return updated;
       }
 
-      return [...prev, { ...newItem, id: `${newItem.productId}-${newItem.size}` }];
+      return [...prev, { ...newItem, id: `${newItem.productId}-${newItem.colorId}-${newItem.size}` }];
     });
     setIsCartOpen(true);
   };

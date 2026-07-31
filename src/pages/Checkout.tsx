@@ -50,7 +50,7 @@ export default function Checkout() {
       : `*Nouvelle commande*\n\n*Nom:* ${formData.nom}\n*Téléphone:* ${formData.telephone}\n*Ville:* ${formData.ville}\n*Adresse:* ${formData.adresse}\n\n*Articles:*\n`;
 
     items.forEach(item => {
-      message += `- ${item.quantity}x ${item.name} (${language === 'ar' ? 'المقاس' : 'Taille'}: ${item.size}) - ${item.price} MAD\n`;
+      message += `- ${item.quantity}x ${item.name} (${item.colorName} • ${language === 'ar' ? 'المقاس' : 'Taille'}: ${item.size}) - ${item.price} MAD\n`;
     });
 
     message += language === 'ar'
@@ -187,7 +187,7 @@ export default function Checkout() {
                   </div>
                   <div className="flex-1 text-sm">
                     <h4 className="font-bold text-brand-navy">{item.name}</h4>
-                    <p className="text-gray-500">{t("product.size")}: {item.size}</p>
+                    <p className="text-gray-500">{item.colorName} • {t("product.size")}: {item.size}</p>
                     <p className="font-semibold mt-1">{item.price} MAD</p>
                   </div>
                 </div>

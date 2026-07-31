@@ -1,6 +1,6 @@
 {
   "name": "Océane Modest",
-  "description": "A modest swimwear collection tailored for the Moroccan market, featuring high-converting localized UX.",
+  "description": "An elegant women's clothing collection tailored for the Moroccan market, featuring high-converting localized UX.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
