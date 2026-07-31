@@ -4,9 +4,10 @@ import { Check, ShieldCheck, Truck, PackagePlus, AlertCircle, ChevronDown, Chevr
 import { useLanguage } from "../context/LanguageContext";
 import { useCart } from "../context/CartContext";
 import { products } from "../data/products";
+import { ProductImage } from "../components/ProductImage";
+import { cn, getMainImage } from "../utils";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { cn } from "../utils";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,7 +35,6 @@ export default function LandingAlma() {
   const formRef = useRef<HTMLDivElement>(null);
   
   const currentColor = colors.find(c => c.id === selectedColor) || colors[0];
-  const imagesList = [currentColor.images.front];
 
   const handleScrollToForm = () => {
     if (formRef.current) {
@@ -53,7 +53,7 @@ export default function LandingAlma() {
       productId: product.id,
       name: product.name[language],
       price: 174.5, // 349 / 2
-      image: colors[0].images.front,
+      image: getMainImage(colors[0]),
       size: bundleSizeBlue,
       colorId: colors[0].id,
       colorName: colors[0].name[language],
@@ -64,7 +64,7 @@ export default function LandingAlma() {
       productId: product.id,
       name: product.name[language],
       price: 174.5,
-      image: colors[1].images.front,
+      image: getMainImage(colors[1]),
       size: bundleSizeBordeaux,
       colorId: colors[1].id,
       colorName: colors[1].name[language],
@@ -125,10 +125,11 @@ export default function LandingAlma() {
         {/* Hero Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 mb-16">
           <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-sm bg-gray-100">
-            <img 
-              src={currentColor.images.front} 
+            <ProductImage 
+              color={currentColor}
+              type="main"
               alt={`Ensemble Alma ${currentColor.name.fr} porté par une femme`}
-              className="w-full h-full object-cover animate-fade-in"
+              className="w-full h-full object-contain md:object-cover animate-fade-in"
               key={currentColor.id}
             />
           </div>
@@ -200,7 +201,7 @@ export default function LandingAlma() {
                   )}
                   aria-pressed={selectedColor === c.id}
                 >
-                  <img src={c.images.front} alt={c.name.fr} className="w-full aspect-[3/4] object-cover rounded-lg" />
+                  <ProductImage color={c} type="main" alt={c.name.fr} className="w-full aspect-[3/4] object-cover rounded-lg" />
                   <span className="text-xs font-bold text-center leading-tight">{c.name.fr}</span>
                 </button>
               ))}
@@ -605,7 +606,7 @@ export default function LandingAlma() {
         ) : (
           <>
             <div className="flex items-center gap-3">
-              <img src={currentColor.images.front} alt="" className="w-10 h-10 rounded object-cover" />
+              <ProductImage color={currentColor} type="main" alt="" className="w-10 h-10 rounded object-cover" />
               <div>
                 <div className="text-xs font-bold text-brand-navy uppercase tracking-wider">Ensemble Alma</div>
                 <div className="font-bold text-sm text-gray-700">199 DH</div>

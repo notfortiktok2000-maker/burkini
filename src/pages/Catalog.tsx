@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { products } from "../data/products";
 import { SlidersHorizontal } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
+import { ProductImage } from "../components/ProductImage";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -70,13 +71,15 @@ export default function Catalog() {
         {products.map((product) => (
           <Link key={product.id} to={`/product/${product.slug}`} className="group block">
             <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-4 rounded-xl shadow-sm">
-              <img
-                src={product.colors[0].images.front}
+              <ProductImage
+                color={product.colors[0]}
+                type="main"
                 alt={product.name[language]}
                 className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0 z-10"
               />
-              <img
-                src={product.colors[0].images.angle}
+              <ProductImage
+                color={product.colors[0]}
+                type="lifestyle"
                 alt={`${product.name[language]} angle`}
                 className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700"
               />

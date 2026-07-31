@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import gsap from "gsap";
-import { Truck, ShieldCheck, Check, MessageCircle, AlertCircle, TrendingDown, PackagePlus } from "lucide-react";
+import { Truck, ShieldCheck, Check, MessageCircle, AlertCircle, TrendingDown, PackagePlus, Globe, Clock, Award } from "lucide-react";
+import { ProductImage } from "../components/ProductImage";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
 import { useLanguage } from "../context/LanguageContext";
-import { cn } from "../utils";
+import { cn, getImageList, getMainImage, getSecondaryImage } from "../utils";
 
 export default function Product() {
   const { slug } = useParams();
@@ -63,7 +64,7 @@ export default function Product() {
   }
 
   const currentColor = product.colors?.find(c => c.id === selectedColor) || product.colors?.[0];
-  const imagesList = currentColor ? Array.from(new Set([currentColor.images.front, currentColor.images.angle, currentColor.images.detail].filter(Boolean))) as string[] : [];
+  const imagesList = currentColor ? getImageList(currentColor) : [];
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -76,7 +77,7 @@ export default function Product() {
       productId: product.id,
       name: product.name[language],
       price: product.price,
-      image: currentColor.images.front,
+      image: getMainImage(currentColor),
       size: selectedSize,
       colorId: currentColor.id,
       colorName: currentColor.name[language],
@@ -91,7 +92,7 @@ export default function Product() {
         {/* Images */}
         <div ref={imagesRef} className="flex flex-col-reverse md:flex-row gap-4">
           <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-visible no-scrollbar pb-2 md:pb-0">
-            {imagesList.map((img, idx) => (
+            {imagesList.map((media, idx) => (
               <button
                 key={idx}
                 onClick={() => setActiveImage(idx)}
@@ -100,16 +101,18 @@ export default function Product() {
                   activeImage === idx ? "border-brand-navy" : "border-transparent opacity-60 hover:opacity-100"
                 )}
               >
-                <img src={img} alt="" className="w-full h-full object-cover" />
+                <ProductImage color={currentColor!} type={media.type as any} alt="" className="w-full h-full object-cover" />
               </button>
             ))}
           </div>
           <div className="flex-1 aspect-[3/4] bg-gray-100 overflow-hidden relative rounded-xl shadow-sm">
-            <img
+            <ProductImage
               key={activeImage} // Force re-render for simple crossfade
-              src={imagesList[activeImage]}
+              color={currentColor!}
+              type={imagesList[activeImage]?.type as any}
               alt={product.name[language]}
-              className="w-full h-full object-cover animate-fade-in"
+              className="w-full h-full object-contain md:object-cover animate-fade-in"
+              fetchpriority="high"
             />
           </div>
         </div>
@@ -140,23 +143,39 @@ export default function Product() {
           )}
 
           {/* Trust Block */}
-          <div className="bg-brand-sand p-5 rounded-xl mb-8 space-y-4 border border-gray-100">
-            <div className="flex items-center gap-3 font-medium">
-              <Truck className="w-5 h-5 text-brand-accent" />
-              <span>{t("product.delivery_info")}</span>
+          <div className="flex justify-between items-start gap-4 mb-8 py-6 border-y border-gray-100">
+            <div className="flex flex-col items-center text-center gap-2 flex-1">
+              <Globe className="w-10 h-10 text-brand-navy" strokeWidth={1.5} />
+              <span className="text-[11px] font-bold uppercase tracking-wider leading-tight">
+                {language === "ar" ? (
+                  <>توصيل مجاني<br/>لجميع المدن</>
+                ) : (
+                  <>Livraison gratuite<br/>partout</>
+                )}
+              </span>
             </div>
-            <div className="flex items-center gap-3 font-medium">
-              <ShieldCheck className="w-5 h-5 text-brand-accent" />
-              <span>{t("product.cod_info")}</span>
+            <div className="flex flex-col items-center text-center gap-2 flex-1 border-x border-gray-100 px-2">
+              <div className="relative">
+                <Truck className="w-10 h-10 text-brand-navy" strokeWidth={1.5} />
+                <Clock className="w-5 h-5 text-brand-accent absolute -bottom-1 -right-2 bg-white rounded-full" strokeWidth={2} />
+              </div>
+              <span className="text-[11px] font-bold uppercase tracking-wider leading-tight">Livraison<br/>Express</span>
             </div>
-            <div className="flex items-center gap-3 font-medium text-brand-navy">
-              <PackagePlus className="w-5 h-5 text-brand-accent" />
+            <div className="flex flex-col items-center text-center gap-2 flex-1">
+              <Award className="w-10 h-10 text-yellow-500" strokeWidth={1.5} />
+              <span className="text-[11px] font-bold uppercase tracking-wider leading-tight">100% Satisfaction<br/>Guarantee</span>
+            </div>
+          </div>
+          
+          <div className="bg-brand-sand p-4 rounded-xl mb-8 space-y-3 border border-gray-100">
+            <div className="flex items-start gap-3 font-medium text-brand-navy">
+              <PackagePlus className="w-5 h-5 text-brand-accent flex-shrink-0 mt-0.5" />
               <span className="text-sm font-bold bg-white px-2 py-1 rounded-md border border-gray-200">
                 {t("product.upsell_offer")}
               </span>
             </div>
             {product.stockCount < 10 && (
-              <div className="flex items-center gap-3 text-sm font-bold text-red-600 mt-2">
+              <div className="flex items-center gap-3 text-sm font-bold text-red-600">
                 <AlertCircle className="w-5 h-5" />
                 <span>{t("product.stock_left", { stock: product.stockCount })}</span>
               </div>
@@ -180,7 +199,7 @@ export default function Product() {
                   )}
                   title={color.name[language]}
                 >
-                  <img src={color.images.front} alt={color.name[language]} className="w-full h-full object-cover" />
+                  <ProductImage color={color} type="main" alt={color.name[language]} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
@@ -254,13 +273,15 @@ export default function Product() {
           {products.filter(p => p.id !== product.id).slice(0, 4).map((p) => (
             <div key={p.id} className="group block cursor-pointer" onClick={() => navigate(`/product/${p.slug}`)}>
               <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-4 rounded-xl shadow-sm">
-                <img
-                  src={p.colors[0].images.front}
+                <ProductImage
+                  color={p.colors[0]}
+                  type="main"
                   alt={p.name[language]}
                   className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0 z-10"
                 />
-                <img
-                  src={p.colors[0].images.angle}
+                <ProductImage
+                  color={p.colors[0]}
+                  type="lifestyle"
                   alt={`${p.name[language]} angle`}
                   className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700"
                 />
