@@ -3,18 +3,25 @@ import { useParams, useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { Truck, ShieldCheck, Check, MessageCircle, AlertCircle, TrendingDown, PackagePlus, Globe, Clock, Award } from "lucide-react";
 import { ProductImage } from "../components/ProductImage";
-import { products } from "../data/products";
+import { products as localProducts } from "../data/products";
 import { useCart } from "../context/CartContext";
 import { useLanguage } from "../context/LanguageContext";
 import { cn, getImageList, getMainImage, getSecondaryImage } from "../utils";
+import { useShopify } from "../context/ShopifyContext";
+import { mapShopifyProducts } from "../lib/shopifyAdapter";
 
 export default function Product() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { t, language } = useLanguage();
+  const { products: shopifyProducts, isReady } = useShopify();
   
-  const product = products.find((p) => p.slug === slug);
+  const displayProducts = shopifyProducts.length > 0 
+    ? mapShopifyProducts(shopifyProducts) 
+    : localProducts;
+
+  const product = displayProducts.find((p) => p.slug === slug);
   
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
@@ -54,8 +61,8 @@ export default function Product() {
     return (
       <div className="min-h-screen flex items-center justify-center pt-20">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">{t("product.not_found")}</h1>
-          <button onClick={() => navigate("/catalog")} className="text-brand-accent underline">
+          <h1 className="text-2xl font-medium mb-4">{t("product.not_found")}</h1>
+          <button onClick={() => navigate("/catalog")} className="text-[#1D1D1F] underline">
             {t("product.back_to_shop")}
           </button>
         </div>
@@ -97,15 +104,15 @@ export default function Product() {
                 key={idx}
                 onClick={() => setActiveImage(idx)}
                 className={cn(
-                  "flex-shrink-0 w-20 h-24 md:w-24 md:h-32 overflow-hidden border-2 rounded-xl transition-all",
-                  activeImage === idx ? "border-brand-navy" : "border-transparent opacity-60 hover:opacity-100"
+                  "flex-shrink-0 w-20 h-24 md:w-24 md:h-32 overflow-hidden border rounded-2xl transition-all",
+                  activeImage === idx ? "border-[#1D1D1F]" : "border-transparent opacity-60 hover:opacity-100"
                 )}
               >
                 <ProductImage color={currentColor!} type={media.type as any} alt="" className="w-full h-full object-cover" />
               </button>
             ))}
           </div>
-          <div className="flex-1 aspect-[3/4] bg-gray-100 overflow-hidden relative rounded-xl shadow-sm">
+          <div className="flex-1 aspect-[3/4] bg-[#F5F5F7] overflow-hidden relative rounded-2xl">
             <ProductImage
               key={activeImage} // Force re-render for simple crossfade
               color={currentColor!}
@@ -119,24 +126,24 @@ export default function Product() {
 
         {/* Content */}
         <div ref={contentRef} className="flex flex-col">
-          <h1 className="text-3xl lg:text-4xl font-bold uppercase tracking-wide mb-2">
+          <h1 className="text-3xl lg:text-4xl font-medium tracking-tight mb-2">
             {product.name[language]}
           </h1>
           <p className="text-lg text-gray-500 mb-6 font-medium">{product.hook[language]}</p>
           
           <div className="flex flex-wrap items-center gap-4 mb-4">
-            <span className="text-3xl font-bold text-brand-accent">{product.price} MAD</span>
+            <span className="text-3xl font-medium text-[#1D1D1F]">{product.price} MAD</span>
             {product.originalPrice && (
               <span className="text-xl text-gray-400 line-through">{product.originalPrice} MAD</span>
             )}
-            <span className="mx-auto md:ml-auto md:mr-0 bg-green-100 text-green-800 text-xs font-bold px-3 py-1.5 uppercase tracking-wider rounded-lg flex items-center gap-1">
+            <span className="mx-auto md:ml-auto md:mr-0 bg-green-100 text-green-800 text-xs font-medium px-3 py-1.5 tracking-wide rounded-lg flex items-center gap-1">
               <Check className="w-4 h-4" /> {t("product.in_stock")}
             </span>
           </div>
 
           {/* Upsell Promo block */}
           {product.originalPrice && (
-            <div className="flex items-center gap-2 text-brand-accent font-bold mb-6 bg-brand-accent/10 px-4 py-2 rounded-lg">
+            <div className="flex items-center gap-2 text-[#1D1D1F] font-medium mb-6 bg-[#1D1D1F]/10 px-4 py-2 rounded-lg">
               <TrendingDown className="w-5 h-5" />
               {t("product.promo_saved")}
             </div>
@@ -145,8 +152,8 @@ export default function Product() {
           {/* Trust Block */}
           <div className="flex justify-between items-start gap-4 mb-8 py-6 border-y border-gray-100">
             <div className="flex flex-col items-center text-center gap-2 flex-1">
-              <Globe className="w-10 h-10 text-brand-navy" strokeWidth={1.5} />
-              <span className="text-[11px] font-bold uppercase tracking-wider leading-tight">
+              <Globe className="w-10 h-10 text-[#1D1D1F]" strokeWidth={1.5} />
+              <span className="text-[11px] font-medium tracking-wide leading-tight">
                 {language === "ar" ? (
                   <>توصيل مجاني<br/>لجميع المدن</>
                 ) : (
@@ -156,26 +163,26 @@ export default function Product() {
             </div>
             <div className="flex flex-col items-center text-center gap-2 flex-1 border-x border-gray-100 px-2">
               <div className="relative">
-                <Truck className="w-10 h-10 text-brand-navy" strokeWidth={1.5} />
-                <Clock className="w-5 h-5 text-brand-accent absolute -bottom-1 -right-2 bg-white rounded-full" strokeWidth={2} />
+                <Truck className="w-10 h-10 text-[#1D1D1F]" strokeWidth={1.5} />
+                <Clock className="w-5 h-5 text-[#1D1D1F] absolute -bottom-1 -right-2 bg-white rounded-full" strokeWidth={2} />
               </div>
-              <span className="text-[11px] font-bold uppercase tracking-wider leading-tight">Livraison<br/>Express</span>
+              <span className="text-[11px] font-medium tracking-wide leading-tight">Livraison<br/>Express</span>
             </div>
             <div className="flex flex-col items-center text-center gap-2 flex-1">
               <Award className="w-10 h-10 text-yellow-500" strokeWidth={1.5} />
-              <span className="text-[11px] font-bold uppercase tracking-wider leading-tight">100% Satisfaction<br/>Guarantee</span>
+              <span className="text-[11px] font-medium tracking-wide leading-tight">100% Satisfaction<br/>Guarantee</span>
             </div>
           </div>
           
-          <div className="bg-brand-sand p-4 rounded-xl mb-8 space-y-3 border border-gray-100">
-            <div className="flex items-start gap-3 font-medium text-brand-navy">
-              <PackagePlus className="w-5 h-5 text-brand-accent flex-shrink-0 mt-0.5" />
-              <span className="text-sm font-bold bg-white px-2 py-1 rounded-md border border-gray-200">
+          <div className="bg-[#F5F5F7] p-4 rounded-2xl mb-8 space-y-3 border border-gray-100">
+            <div className="flex items-start gap-3 font-medium text-[#1D1D1F]">
+              <PackagePlus className="w-5 h-5 text-[#1D1D1F] flex-shrink-0 mt-0.5" />
+              <span className="text-sm font-medium bg-white px-2 py-1 rounded-md border border-gray-200">
                 {t("product.upsell_offer")}
               </span>
             </div>
             {product.stockCount < 10 && (
-              <div className="flex items-center gap-3 text-sm font-bold text-red-600">
+              <div className="flex items-center gap-3 text-sm font-medium text-red-600">
                 <AlertCircle className="w-5 h-5" />
                 <span>{t("product.stock_left", { stock: product.stockCount })}</span>
               </div>
@@ -183,7 +190,7 @@ export default function Product() {
           </div>
 
           <div className="mb-8">
-            <h3 className="font-bold uppercase tracking-wider text-sm mb-4">
+            <h3 className="font-bold tracking-wide text-sm mb-4">
               <span>{language === 'ar' ? 'اللون' : 'Couleur'}</span>
             </h3>
             <div className="flex gap-4">
@@ -192,9 +199,9 @@ export default function Product() {
                   key={color.id}
                   onClick={() => setSelectedColor(color.id)}
                   className={cn(
-                    "relative w-16 h-20 rounded-xl overflow-hidden border-2 transition-all",
+                    "relative w-16 h-20 rounded-2xl overflow-hidden border transition-all",
                     selectedColor === color.id
-                      ? "border-brand-navy shadow-md scale-105"
+                      ? "border-[#1D1D1F] shadow-sm scale-105"
                       : "border-transparent hover:border-gray-300"
                   )}
                   title={color.name[language]}
@@ -206,7 +213,7 @@ export default function Product() {
           </div>
 
           <div className="mb-8">
-            <h3 className="font-bold uppercase tracking-wider text-sm mb-4 flex justify-between">
+            <h3 className="font-bold tracking-wide text-sm mb-4 flex justify-between">
               <span>{t("product.size")}</span>
               <button className="text-gray-500 underline text-xs normal-case">{t("product.size_guide")}</button>
             </h3>
@@ -216,10 +223,10 @@ export default function Product() {
                   key={size}
                   onClick={() => { setSelectedSize(size); setError(""); }}
                   className={cn(
-                    "py-3 font-bold uppercase transition-all border rounded-xl",
+                    "py-3 font-medium transition-all border rounded-2xl",
                     selectedSize === size
-                      ? "bg-brand-navy text-white border-brand-navy shadow-md"
-                      : "bg-white text-brand-navy border-gray-200 hover:border-brand-navy"
+                      ? "bg-[#1D1D1F] text-white border-[#1D1D1F] shadow-sm"
+                      : "bg-white text-[#1D1D1F] border-gray-200 hover:border-[#1D1D1F]"
                   )}
                 >
                   {size}
@@ -230,15 +237,15 @@ export default function Product() {
           </div>
 
           <div className="mb-8">
-            <h3 className="font-bold uppercase tracking-wider text-sm mb-4">{t("product.quantity")}</h3>
-            <div className="flex items-center border border-gray-300 w-32 h-12 rounded-xl overflow-hidden">
+            <h3 className="font-bold tracking-wide text-sm mb-4">{t("product.quantity")}</h3>
+            <div className="flex items-center border border-gray-300 w-32 h-12 rounded-2xl overflow-hidden">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 className="w-10 h-full flex items-center justify-center hover:bg-gray-50 transition-colors font-medium text-lg"
               >
                 -
               </button>
-              <span className="flex-1 text-center font-bold">{quantity}</span>
+              <span className="flex-1 text-center font-medium">{quantity}</span>
               <button
                 onClick={() => setQuantity(quantity + 1)}
                 className="w-10 h-full flex items-center justify-center hover:bg-gray-50 transition-colors font-medium text-lg"
@@ -251,14 +258,14 @@ export default function Product() {
           <div className="flex flex-col gap-4 mt-auto">
             <button
               onClick={handleAddToCart}
-              className="w-full bg-brand-navy text-white h-14 rounded-xl font-bold uppercase tracking-wider hover:bg-brand-navy/90 transition-all shadow-md"
+              className="w-full bg-[#1D1D1F] text-white h-14 rounded-full font-medium tracking-tight hover:bg-[#1D1D1F]/90 transition-all shadow-sm"
             >
               {t("product.add_to_cart")}
             </button>
           </div>
 
           <div className="mt-12 pt-8 border-t border-gray-200">
-            <h3 className="font-bold uppercase tracking-wider mb-4">{t("product.description")}</h3>
+            <h3 className="font-bold tracking-wide mb-4">{t("product.description")}</h3>
             <p className="text-gray-600 leading-relaxed text-sm">
               {product.description[language]}
             </p>
@@ -268,11 +275,11 @@ export default function Product() {
 
       {/* Related Products */}
       <div className="mt-24 pt-16 border-t border-gray-200">
-        <h2 className="text-2xl font-bold uppercase tracking-wider mb-10 text-center">{t("product.related")}</h2>
+        <h2 className="text-2xl font-medium tracking-wide mb-10 text-center">{t("product.related")}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {products.filter(p => p.id !== product.id).slice(0, 4).map((p) => (
+          {displayProducts.filter(p => p.id !== product.id).slice(0, 4).map((p) => (
             <div key={p.id} className="group block cursor-pointer" onClick={() => navigate(`/product/${p.slug}`)}>
-              <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-4 rounded-xl shadow-sm">
+              <div className="relative aspect-[3/4] overflow-hidden bg-[#F5F5F7] mb-4 rounded-2xl">
                 <ProductImage
                   color={p.colors[0]}
                   type="main"
@@ -286,9 +293,9 @@ export default function Product() {
                   className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700"
                 />
               </div>
-              <h3 className="font-bold text-brand-navy mb-1 text-lg">{p.name[language]}</h3>
+              <h3 className="font-bold text-[#1D1D1F] mb-1 text-lg">{p.name[language]}</h3>
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-brand-accent">{p.price} DH</span>
+                <span className="font-semibold text-[#1D1D1F]">{p.price} DH</span>
               </div>
             </div>
           ))}

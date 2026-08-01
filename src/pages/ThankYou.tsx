@@ -26,19 +26,19 @@ export default function ThankYou() {
 
   return (
     <div className="pt-32 pb-24 max-w-3xl mx-auto px-4 min-h-screen flex items-center justify-center">
-      <div ref={containerRef} className="bg-white p-8 md:p-12 text-center shadow-lg border border-gray-100 w-full rounded-xl">
+      <div ref={containerRef} className="bg-white p-8 md:p-12 text-center shadow-md border border-gray-100 w-full rounded-2xl">
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 mb-6">
           <CheckCircle2 className="w-10 h-10 text-green-600" />
         </div>
         
-        <h1 className="text-3xl font-bold uppercase tracking-wider mb-4">{t("thank_you.title")}</h1>
+        <h1 className="text-3xl font-medium tracking-wide mb-4">{t("thank_you.title")}</h1>
         
         <p className="text-gray-600 mb-8 text-lg">
           {t("thank_you.message", { name: firstName })}
         </p>
 
-        <div className="bg-brand-sand p-6 text-left mb-8 rounded-xl">
-          <h3 className="font-bold uppercase tracking-wider text-sm mb-4">{t("thank_you.steps")}</h3>
+        <div className="bg-[#F5F5F7] p-6 text-left mb-8 rounded-2xl">
+          <h3 className="font-bold tracking-wide text-sm mb-4">{t("thank_you.steps")}</h3>
           <ul className="space-y-3 text-sm text-gray-700">
             <li className="flex items-start gap-2">
               <span className="font-bold">1.</span>
@@ -64,7 +64,7 @@ export default function ThankYou() {
             href={`https://wa.me/212710900502?text=${language === 'ar' ? encodeURIComponent('مرحبا، لقد قمت للتو بتقديم طلب وأود تأكيده.') : encodeURIComponent('Bonjour, je viens de passer une commande et je souhaite la confirmer.')}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full bg-[#25D366] text-white h-14 rounded-xl font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-[#20bd5a] transition-colors shadow-md"
+            className="w-full bg-[#25D366] text-white h-14 rounded-full font-medium tracking-tight flex items-center justify-center gap-2 hover:bg-[#20bd5a] transition-colors shadow-sm"
           >
             <MessageCircle className="w-5 h-5" />
             {t("thank_you.whatsapp_confirm")}
@@ -72,7 +72,7 @@ export default function ThankYou() {
           
           <Link
             to="/catalog"
-            className="w-full border-2 border-brand-navy text-brand-navy h-14 rounded-xl font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-brand-navy hover:text-white transition-colors"
+            className="w-full border border-[#1D1D1F] text-[#1D1D1F] h-14 rounded-full font-medium tracking-tight flex items-center justify-center gap-2 hover:bg-[#1D1D1F] hover:text-white transition-colors"
           >
             {t("thank_you.continue_shopping")} <ArrowRight className="w-4 h-4" />
           </Link>

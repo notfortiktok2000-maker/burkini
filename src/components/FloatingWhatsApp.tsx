@@ -10,7 +10,7 @@ export default function FloatingWhatsApp() {
       aria-label="Commander via WhatsApp"
     >
       <MessageCircle className="w-7 h-7" />
-      <span className="absolute right-full mr-4 bg-white text-brand-navy px-3 py-1 rounded-md text-sm font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity shadow-sm pointer-events-none">
+      <span className="absolute right-full mr-4 bg-white text-[#1D1D1F] px-3 py-1 rounded-md text-sm font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity shadow-sm pointer-events-none">
         Besoin d'aide ?
       </span>
     </a>

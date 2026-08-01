@@ -11,7 +11,9 @@ import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import CartDrawer from "./components/CartDrawer";
 import { CartProvider } from "./context/CartContext";
 import { LanguageProvider } from "./context/LanguageContext";
+import { ShopifyProvider } from "./context/ShopifyContext";
 import Home from "./pages/Home";
+
 import Catalog from "./pages/Catalog";
 import Product from "./pages/Product";
 import Checkout from "./pages/Checkout";
@@ -28,29 +30,31 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <CartProvider>
-        <Router>
-          <ScrollToTop />
-          <div className="flex flex-col min-h-screen">
-            <Navbar />
-            <CartDrawer />
-            <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/catalog" element={<Catalog />} />
-                <Route path="/product/:slug" element={<Product />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/thank-you" element={<ThankYou />} />
-                <Route path="/ensemble-alma" element={<LandingAlma />} />
-              </Routes>
-            </main>
-            <Footer />
-            <FloatingWhatsApp />
-          </div>
-        </Router>
-      </CartProvider>
-    </LanguageProvider>
+    <ShopifyProvider>
+      <LanguageProvider>
+        <CartProvider>
+          <Router>
+            <ScrollToTop />
+            <div className="flex flex-col min-h-screen">
+              <Navbar />
+              <CartDrawer />
+              <main className="flex-grow">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/catalog" element={<Catalog />} />
+                  <Route path="/product/:slug" element={<Product />} />
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/thank-you" element={<ThankYou />} />
+                  <Route path="/ensemble-alma" element={<LandingAlma />} />
+                </Routes>
+              </main>
+              <Footer />
+              <FloatingWhatsApp />
+            </div>
+          </Router>
+        </CartProvider>
+      </LanguageProvider>
+    </ShopifyProvider>
   );
 }
 

@@ -1,15 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Montserrat", ui-serif, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
   
-  --color-brand-navy: #1C1917;
-  --color-brand-teal: #E6DFD3;
-  --color-brand-sand: #F8F5EF;
-  --color-brand-brown: #7A2735;
-  --color-brand-accent: #B8A48E;
+  --color-brand-navy: #1D1D1F;
+  --color-brand-teal: #F5F5F7;
+  --color-brand-sand: #FFFFFF;
+  --color-brand-brown: #86868B;
+  --color-brand-accent: #000000;
 }
 
 @layer utilities {
@@ -20,9 +18,11 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  
   .animate-fade-in {
     animation: fadeIn 0.4s ease-in-out;
   }
+  
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -31,11 +31,16 @@
 
 body {
   font-family: var(--font-sans);
-  font-weight: 600;
-  background-color: var(--color-brand-sand);
-  color: var(--color-brand-navy);
+  background-color: #FFFFFF;
+  color: #1D1D1F;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  letter-spacing: -0.01em;
 }
 
-h1, h2, h3, h4, h5, h6, .font-serif {
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }

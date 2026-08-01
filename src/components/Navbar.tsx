@@ -21,7 +21,7 @@ export default function Navbar() {
     <>
       <header
         className={cn(
-          "fixed top-0 w-full z-40 transition-all duration-300 shadow-sm backdrop-blur-md bg-white/95 text-brand-navy",
+          "fixed top-0 w-full z-40 transition-all duration-300 shadow-sm backdrop-blur-md bg-white/95 text-[#1D1D1F]",
           isScrolled ? "py-3" : "py-4"
         )}
       >
@@ -34,33 +34,33 @@ export default function Navbar() {
               >
                 <Menu className="w-6 h-6" />
               </button>
-              <Link to="/" className="text-xl font-bold tracking-tight uppercase">
+              <Link to="/" className="text-xl font-medium tracking-tight uppercase">
                 Océane Modest
               </Link>
             </div>
             <nav className="hidden md:flex space-x-8">
-              <Link to="/" className="text-sm font-medium hover:text-brand-accent transition-colors">
+              <Link to="/" className="text-sm font-medium hover:opacity-70 transition-colors">
                 {t("nav.home")}
               </Link>
-              <Link to="/catalog" className="text-sm font-medium hover:text-brand-accent transition-colors">
+              <Link to="/catalog" className="text-sm font-medium hover:opacity-70 transition-colors">
                 {t("nav.shop")}
               </Link>
             </nav>
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => setLanguage(language === "fr" ? "ar" : "fr")}
-                className="flex items-center gap-1 p-2 text-sm font-bold uppercase hover:text-brand-accent transition-colors"
+                className="flex items-center gap-1 p-2 text-sm font-medium hover:opacity-70 transition-colors"
               >
                 <Globe className="w-5 h-5" />
                 <span className="hidden sm:inline">{language === "fr" ? "AR" : "FR"}</span>
               </button>
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="relative p-2 hover:text-brand-accent transition-colors"
+                className="relative p-2 hover:opacity-70 transition-colors"
               >
                 <ShoppingBag className="w-6 h-6" />
                 {totalItems > 0 && (
-                  <span className="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-brand-accent rounded-full">
+                  <span className="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-[#1D1D1F] rounded-full">
                     {totalItems}
                   </span>
                 )}
@@ -78,7 +78,7 @@ export default function Navbar() {
         )}
       >
         <div className="flex justify-between items-center p-4 border-b">
-          <span className="text-xl font-bold uppercase">Menu</span>
+          <span className="text-xl font-medium uppercase">Menu</span>
           <button onClick={() => setIsMobileMenuOpen(false)} className="p-2">
             <X className="w-6 h-6" />
           </button>
@@ -105,7 +105,7 @@ export default function Navbar() {
                 setLanguage(language === "fr" ? "ar" : "fr");
                 setIsMobileMenuOpen(false);
               }}
-              className="px-4 py-2 bg-brand-sand rounded-xl font-bold text-sm uppercase"
+              className="px-4 py-2 bg-[#F5F5F7] rounded-2xl font-medium text-sm uppercase"
             >
               {language === "fr" ? "عربي" : "Français"}
             </button>

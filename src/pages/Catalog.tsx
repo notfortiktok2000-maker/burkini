@@ -1,18 +1,26 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { products } from "../data/products";
+import { products as localProducts } from "../data/products";
 import { SlidersHorizontal } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { ProductImage } from "../components/ProductImage";
+import { useShopify } from "../context/ShopifyContext";
+import { mapShopifyProducts } from "../lib/shopifyAdapter";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Catalog() {
   const { t, language } = useLanguage();
+  const { products: shopifyProducts, isReady } = useShopify();
   const headerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+
+  // If Shopify has products, use them, otherwise use local fallback
+  const displayProducts = shopifyProducts.length > 0 
+    ? mapShopifyProducts(shopifyProducts) 
+    : localProducts;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -45,7 +53,7 @@ export default function Catalog() {
   return (
     <div className="pt-24 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen mt-8">
       <div ref={headerRef} className="text-center mb-12">
-        <h1 className="text-4xl font-bold uppercase tracking-wider mb-4">{t("catalog.title")}</h1>
+        <h1 className="text-4xl font-medium tracking-wide mb-4">{t("catalog.title")}</h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
           {t("catalog.subtitle")}
         </p>
@@ -53,7 +61,7 @@ export default function Catalog() {
 
       {/* Filter Bar - Visual Only */}
       <div className="flex justify-between items-center py-4 border-y border-gray-200 mb-10">
-        <button className="flex items-center gap-2 text-sm font-medium hover:text-brand-accent transition-colors">
+        <button className="flex items-center gap-2 text-sm font-medium hover:opacity-70 transition-colors">
           <SlidersHorizontal className="w-4 h-4" />
           {t("catalog.filters")}
         </button>
@@ -68,9 +76,9 @@ export default function Catalog() {
       </div>
 
       <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
-        {products.map((product) => (
+        {displayProducts.map((product) => (
           <Link key={product.id} to={`/product/${product.slug}`} className="group block">
-            <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-4 rounded-xl shadow-sm">
+            <div className="relative aspect-[3/4] overflow-hidden bg-[#F5F5F7] mb-4 rounded-2xl">
               <ProductImage
                 color={product.colors[0]}
                 type="main"
@@ -84,20 +92,20 @@ export default function Catalog() {
                 className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700"
               />
               {product.stockCount < 5 && (
-                <div className="absolute top-3 left-3 z-20 bg-red-500 text-white text-xs font-bold px-3 py-1 uppercase tracking-wider rounded-md">
+                <div className="absolute top-3 left-3 z-20 bg-red-500 text-white text-xs font-medium px-3 py-1 tracking-wide rounded-md">
                   {t("catalog.almost_sold_out")}
                 </div>
               )}
             </div>
-            <h3 className="font-bold text-brand-navy mb-1 text-lg">{product.name[language]}</h3>
+            <h3 className="font-bold text-[#1D1D1F] mb-1 text-lg">{product.name[language]}</h3>
             <p className="text-sm text-gray-500 mb-2 truncate">{product.hook[language]}</p>
             <div className="flex items-center gap-2 mb-3">
-              <span className="font-semibold text-brand-accent">{product.price} DH</span>
+              <span className="font-semibold text-[#1D1D1F]">{product.price} DH</span>
               {product.originalPrice && (
                 <span className="text-sm text-gray-400 line-through">{product.originalPrice} DH</span>
               )}
             </div>
-            <div className="w-full text-center border border-brand-navy py-3 text-sm font-semibold uppercase tracking-wider rounded-xl group-hover:bg-brand-navy group-hover:text-white transition-colors">
+            <div className="w-full text-center border border-[#1D1D1F] py-3 text-sm font-semibold tracking-wide rounded-2xl group-hover:bg-[#1D1D1F] group-hover:text-white transition-colors">
               {t("catalog.view_product")}
             </div>
           </Link>

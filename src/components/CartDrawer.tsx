@@ -63,7 +63,7 @@ export default function CartDrawer() {
         )}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-100">
-          <h2 className="text-lg font-bold">{t("cart.title")}</h2>
+          <h2 className="text-lg font-medium">{t("cart.title")}</h2>
           <button onClick={() => setIsCartOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
             <X className="w-5 h-5" />
           </button>
@@ -76,7 +76,7 @@ export default function CartDrawer() {
               <Link
                 to="/catalog"
                 onClick={() => setIsCartOpen(false)}
-                className="text-brand-accent font-medium hover:underline"
+                className="text-[#1D1D1F] font-medium hover:underline"
               >
                 {t("cart.back_to_shop")}
               </Link>
@@ -84,17 +84,17 @@ export default function CartDrawer() {
           ) : (
             <div className="space-y-6">
               {totalQuantity >= 2 && (
-                <div className="bg-green-100 text-green-800 text-xs font-bold px-3 py-2 rounded-lg text-center uppercase tracking-wider">
+                <div className="bg-green-100 text-green-800 text-xs font-medium px-3 py-2 rounded-lg text-center tracking-wide">
                   🎉 Livraison gratuite et -10% sur prochaine commande activées !
                 </div>
               )}
               {items.map((item) => (
                 <div key={item.id} id={`cart-item-${item.id}`} className="flex gap-4 border-b border-gray-50 pb-4">
-                  <img src={item.image} alt={item.name} className="w-20 h-24 object-cover rounded-xl" />
+                  <img src={item.image} alt={item.name} className="w-20 h-24 object-cover rounded-2xl" />
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
                       <div className="flex justify-between">
-                        <h3 className="font-medium text-sm text-brand-navy">{item.name}</h3>
+                        <h3 className="font-medium text-sm text-[#1D1D1F]">{item.name}</h3>
                         <button
                           onClick={() => handleRemove(item.id, document.getElementById(`cart-item-${item.id}`))}
                           className="text-gray-400 hover:text-red-500 transition-colors"
@@ -103,7 +103,7 @@ export default function CartDrawer() {
                         </button>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">{item.colorName} • {t("product.size")}: {item.size}</p>
-                      <p className="font-semibold text-brand-navy mt-1">{item.price} MAD</p>
+                      <p className="font-semibold text-[#1D1D1F] mt-1">{item.price} MAD</p>
                     </div>
                     <div className="flex items-center gap-3 mt-2">
                       <div className="flex items-center border border-gray-200 rounded-lg">
@@ -137,17 +137,17 @@ export default function CartDrawer() {
             </div>
             <div className="flex justify-between mb-4 text-sm">
               <span className="text-gray-600">{t("cart.shipping")}</span>
-              <span className={totalQuantity >= 2 ? "text-green-600 font-medium" : "text-brand-navy font-medium"}>
+              <span className={totalQuantity >= 2 ? "text-green-600 font-medium" : "text-[#1D1D1F] font-medium"}>
                 {totalQuantity >= 2 ? t("cart.free") : "40 MAD"}
               </span>
             </div>
-            <div className="flex justify-between mb-6 text-lg font-bold">
+            <div className="flex justify-between mb-6 text-lg font-medium">
               <span>{t("cart.total")}</span>
               <span>{totalQuantity >= 2 ? totalPrice : totalPrice + 40} MAD</span>
             </div>
             <button
               onClick={handleCheckout}
-              className="w-full bg-brand-navy text-white py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-brand-navy/90 transition-colors"
+              className="w-full bg-[#1D1D1F] text-white py-4 rounded-2xl font-medium tracking-wide hover:bg-[#1D1D1F]/90 transition-colors"
             >
               {t("cart.checkout")}
             </button>

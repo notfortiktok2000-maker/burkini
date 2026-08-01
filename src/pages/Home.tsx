@@ -3,19 +3,26 @@ import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Truck, CreditCard, RefreshCw } from "lucide-react";
-import { products } from "../data/products";
+import { products as localProducts } from "../data/products";
 import { useLanguage } from "../context/LanguageContext";
 import { ProductImage } from "../components/ProductImage";
+import { useShopify } from "../context/ShopifyContext";
+import { mapShopifyProducts } from "../lib/shopifyAdapter";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const { t, language } = useLanguage();
+  const { products: shopifyProducts, isReady } = useShopify();
   const heroRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
   const productGridRef = useRef<HTMLDivElement>(null);
+
+  const displayProducts = shopifyProducts.length > 0
+    ? mapShopifyProducts(shopifyProducts)
+    : localProducts;
 
   useEffect(() => {
     // Hero Animation
@@ -93,7 +100,7 @@ export default function Home() {
         <div className="relative z-10 text-center text-white px-4">
           <h1
             ref={titleRef}
-            className="text-4xl md:text-6xl font-bold uppercase tracking-widest mb-6 max-w-4xl mx-auto leading-tight"
+            className="text-4xl md:text-6xl font-medium tracking-tight mb-6 max-w-4xl mx-auto leading-tight"
           >
             {t("hero.title")}
           </h1>
@@ -103,7 +110,7 @@ export default function Home() {
           <Link
             ref={ctaRef}
             to="/catalog"
-            className="inline-block bg-white text-brand-navy px-8 py-4 text-sm font-bold uppercase tracking-wider hover:bg-brand-sand transition-colors rounded-xl shadow-lg"
+            className="inline-block bg-white text-[#1D1D1F] px-8 py-4 text-sm font-medium tracking-wide hover:bg-[#F5F5F7] transition-colors rounded-full"
           >
             {t("hero.cta")}
           </Link>
@@ -111,21 +118,21 @@ export default function Home() {
       </section>
 
       {/* Value Strip */}
-      <section className="bg-brand-navy text-white py-12">
+      <section className="bg-[#1D1D1F] text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
           <div ref={featuresRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div className="flex flex-col items-center">
-              <Truck className="w-8 h-8 mb-4 text-brand-accent" />
+              <Truck className="w-8 h-8 mb-4 text-[#1D1D1F]" />
               <h3 className="font-bold text-lg mb-2">{t("features.delivery.title")}</h3>
               <p className="text-gray-400 text-sm">{t("features.delivery.desc")}</p>
             </div>
             <div className="flex flex-col items-center">
-              <CreditCard className="w-8 h-8 mb-4 text-brand-accent" />
+              <CreditCard className="w-8 h-8 mb-4 text-[#1D1D1F]" />
               <h3 className="font-bold text-lg mb-2">{t("features.cod.title")}</h3>
               <p className="text-gray-400 text-sm">{t("features.cod.desc")}</p>
             </div>
             <div className="flex flex-col items-center">
-              <RefreshCw className="w-8 h-8 mb-4 text-brand-accent" />
+              <RefreshCw className="w-8 h-8 mb-4 text-[#1D1D1F]" />
               <h3 className="font-bold text-lg mb-2">{t("features.exchange.title")}</h3>
               <p className="text-gray-400 text-sm">{t("features.exchange.desc")}</p>
             </div>
@@ -136,14 +143,14 @@ export default function Home() {
       {/* Featured Products */}
       <section className="max-w-7xl mx-auto px-4 py-24">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold uppercase tracking-wider mb-4">{t("home.new_arrivals")}</h2>
-          <div className="w-16 h-1 bg-brand-accent mx-auto rounded-full"></div>
+          <h2 className="text-3xl font-medium tracking-wide mb-4">{t("home.new_arrivals")}</h2>
+          <div className="w-16 h-1 bg-[#1D1D1F] mx-auto rounded-full"></div>
         </div>
 
         <div ref={productGridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {products.map((product) => (
+          {displayProducts.map((product) => (
             <Link key={product.id} to={`/product/${product.slug}`} className="group block">
-              <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-4 rounded-xl shadow-sm">
+              <div className="relative aspect-[3/4] overflow-hidden bg-[#F5F5F7] mb-4 rounded-2xl">
                 <ProductImage
                   color={product.colors[0]}
                   type="main"
@@ -157,9 +164,9 @@ export default function Home() {
                   className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700"
                 />
               </div>
-              <h3 className="font-bold text-brand-navy mb-1 text-lg">{product.name[language]}</h3>
+              <h3 className="font-bold text-[#1D1D1F] mb-1 text-lg">{product.name[language]}</h3>
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-brand-accent">{product.price} DH</span>
+                <span className="font-semibold text-[#1D1D1F]">{product.price} DH</span>
                 {product.originalPrice && (
                   <span className="text-sm text-gray-400 line-through">{product.originalPrice} DH</span>
                 )}
@@ -170,19 +177,19 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="bg-brand-sand py-24">
+      <section className="bg-[#F5F5F7] py-24">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold uppercase tracking-wider mb-12">{t("home.testimonials.title")}</h2>
+          <h2 className="text-2xl font-medium tracking-wide mb-12">{t("home.testimonials.title")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white p-8 shadow-sm rounded-xl border border-gray-100">
-              <div className="text-brand-accent mb-4">★★★★★</div>
+            <div className="bg-white p-8 shadow-sm rounded-2xl border border-gray-100">
+              <div className="text-[#1D1D1F] mb-4">★★★★★</div>
               <p className="italic text-gray-700 mb-4">
                 {t("home.testimonials.1")}
               </p>
               <p className="font-bold text-sm uppercase">— Salma T.</p>
             </div>
-            <div className="bg-white p-8 shadow-sm rounded-xl border border-gray-100">
-              <div className="text-brand-accent mb-4">★★★★★</div>
+            <div className="bg-white p-8 shadow-sm rounded-2xl border border-gray-100">
+              <div className="text-[#1D1D1F] mb-4">★★★★★</div>
               <p className="italic text-gray-700 mb-4">
                 {t("home.testimonials.2")}
               </p>
