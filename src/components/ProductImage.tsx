@@ -20,22 +20,24 @@ export function ProductImage({ color, type = 'main', alt, className, fetchpriori
     media = color.images.find((img) => img.type === type) || color.images[0];
   } else {
     // Legacy support
-    const src = (type === 'main' || type === 'front') ? color.images.front : color.images.angle;
+    const src = (type === 'main' || type === 'front') ? (color.images as any).front : (color.images as any).angle;
     media = { type, src, fallback: src, alt };
   }
 
   if (!media) return null;
 
+  const imgSrc = media.fallback || media.src;
+
   return (
-    <picture>
-      {media.src.endsWith('.webp') && (
+    <picture className={cn("block w-full h-full", className)}>
+      {media.src && media.src.endsWith('.webp') && (
         <source srcSet={media.src} type="image/webp" />
       )}
       <img
-        src={media.fallback || media.src}
+        src={imgSrc}
         alt={media.alt || alt}
-        className={className}
-        {...(fetchpriority ? { fetchpriority } : {})}
+        className="w-full h-full object-cover"
+        loading={fetchpriority === 'high' ? 'eager' : 'lazy'}
       />
     </picture>
   );
