@@ -29,24 +29,19 @@ export function ShopifyProvider({ children }: { children: ReactNode }) {
 
       try {
         // Fetch products
-        const fetchedProducts = await shopifyClient.product.fetchAll();
-        setProducts(fetchedProducts as ShopifyProduct[]);
-
-        // Check for existing checkout in local storage
-        const checkoutId = localStorage.getItem('shopify_checkout_id');
-        if (checkoutId) {
-          const existingCheckout = await shopifyClient.checkout.fetch(checkoutId);
-          if (existingCheckout && !existingCheckout.completedAt) {
-            setCheckout(existingCheckout as ShopifyCheckout);
-          } else {
-            localStorage.removeItem('shopify_checkout_id');
-            await createNewCheckout();
-          }
+        const fetchedProducts = await shopifyClient.product.fetchAll() as any[];
+        
+        // Check if Shopify returned an error instead of products
+        if (fetchedProducts && fetchedProducts.length > 0 && fetchedProducts[0].message === 'Not Found') {
+          console.warn("Shopify returned Not Found. Please check your credentials.");
+          setProducts([]);
         } else {
-          await createNewCheckout();
+          setProducts(fetchedProducts as ShopifyProduct[]);
         }
+        setIsReady(true);
       } catch (error) {
         console.error("Failed to initialize Shopify:", error);
+        alert("Shopify Connection Error: Please make sure you have added both VITE_SHOPIFY_DOMAIN and VITE_SHOPIFY_STOREFRONT_TOKEN to your AI Studio Environment Variables, and that they are correct.");
       } finally {
         setIsReady(true);
       }

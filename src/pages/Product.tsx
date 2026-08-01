@@ -118,7 +118,7 @@ export default function Product() {
               color={currentColor!}
               type={imagesList[activeImage]?.type as any}
               alt={product.name[language]}
-              className="w-full h-full object-contain md:object-cover animate-fade-in"
+              className="w-full h-full object-cover animate-fade-in"
               fetchpriority="high"
             />
           </div>
@@ -206,7 +206,7 @@ export default function Product() {
                   )}
                   title={color.name[language]}
                 >
-                  <ProductImage color={color} type="main" alt={color.name[language]} className="w-full h-full object-cover" />
+                  <ProductImage color={color} type="main" alt={color.name[language]} className="w-full h-full object-contain" />
                 </button>
               ))}
             </div>
@@ -262,11 +262,49 @@ export default function Product() {
             >
               {t("product.add_to_cart")}
             </button>
+            
+            {/* Upsell / Cross-sell for Look Alma */}
+            {product.slug === 'ensemble-alma' && (
+              <div className="bg-[#F5F5F7] p-4 rounded-2xl border border-gray-100 flex flex-col gap-3">
+                <p className="text-sm font-medium text-gray-700">
+                  Ajoutez les Sandales Maya et transformez votre commande en look complet.
+                </p>
+                <div className="text-sm flex justify-between text-gray-600">
+                  <span>Ensemble : 259 DH</span>
+                  <span>Sandales : 219 DH</span>
+                </div>
+                <div className="text-sm flex justify-between font-bold text-[#1D1D1F]">
+                  <span>Look Alma (Livraison offerte) :</span>
+                  <span>429 DH</span>
+                </div>
+                <div className="text-xs text-green-600 font-bold text-right mb-2">Économisez 79 DH</div>
+                <button
+                  onClick={() => navigate('/product/look-alma-complet', { state: { ensembleColor: selectedColor, ensembleSize: selectedSize } })}
+                  className="w-full bg-white text-[#1D1D1F] border border-[#1D1D1F] h-12 rounded-full font-medium tracking-tight hover:bg-gray-50 transition-all"
+                >
+                  Passer au Look Alma — 429 DH
+                </button>
+              </div>
+            )}
+
+            {product.slug === 'sandales-maya' && (
+              <div className="bg-[#F5F5F7] p-4 rounded-2xl border border-gray-100 flex flex-col gap-3">
+                <p className="text-sm font-medium text-gray-700">
+                  Complétez vos sandales avec l’Ensemble Alma.
+                </p>
+                <button
+                  onClick={() => navigate('/product/look-alma-complet', { state: { sandalColor: selectedColor, sandalSize: selectedSize } })}
+                  className="w-full bg-white text-[#1D1D1F] border border-[#1D1D1F] h-12 rounded-full font-medium tracking-tight hover:bg-gray-50 transition-all"
+                >
+                  Découvrir le Look Alma
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="mt-12 pt-8 border-t border-gray-200">
             <h3 className="font-bold tracking-wide mb-4">{t("product.description")}</h3>
-            <p className="text-gray-600 leading-relaxed text-sm">
+            <p className="text-gray-600 leading-relaxed text-sm whitespace-pre-wrap">
               {product.description[language]}
             </p>
           </div>

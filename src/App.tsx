@@ -19,6 +19,7 @@ import Product from "./pages/Product";
 import Checkout from "./pages/Checkout";
 import ThankYou from "./pages/ThankYou";
 import LandingAlma from "./pages/LandingAlma";
+import BundleProduct from "./pages/BundleProduct";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -46,6 +47,7 @@ export default function App() {
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/thank-you" element={<ThankYou />} />
                   <Route path="/ensemble-alma" element={<LandingAlma />} />
+                  <Route path="/product/look-alma-complet" element={<BundleProduct />} />
                 </Routes>
               </main>
               <Footer />

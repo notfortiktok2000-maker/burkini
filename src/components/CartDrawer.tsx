@@ -48,6 +48,14 @@ export default function CartDrawer() {
 
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
 
+  const hasEnsemble = items.some(i => i.productId === "prod_alma" && !i.isBundle);
+  const hasSandals = items.some(i => i.productId === "SANDALES-MAYA" && !i.isBundle);
+  const hasBundle = items.some(i => i.isBundle);
+
+  // Bundle delivery is free, others are free if totalQuantity >= 2
+  const isShippingFree = hasBundle || totalQuantity >= 2;
+  const shippingCost = isShippingFree ? 0 : 40;
+
   return (
     <>
       <div
@@ -83,14 +91,14 @@ export default function CartDrawer() {
             </div>
           ) : (
             <div className="space-y-6">
-              {totalQuantity >= 2 && (
+              {totalQuantity >= 2 && !hasBundle && (
                 <div className="bg-green-100 text-green-800 text-xs font-medium px-3 py-2 rounded-lg text-center tracking-wide">
-                  🎉 Livraison gratuite et -10% sur prochaine commande activées !
+                  🎉 Livraison gratuite activée !
                 </div>
               )}
               {items.map((item) => (
                 <div key={item.id} id={`cart-item-${item.id}`} className="flex gap-4 border-b border-gray-50 pb-4">
-                  <img src={item.image} alt={item.name} className="w-20 h-24 object-cover rounded-2xl" />
+                  <img src={item.image} alt={item.name} className="w-20 h-24 object-cover rounded-2xl border border-gray-100" />
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
                       <div className="flex justify-between">
@@ -102,8 +110,23 @@ export default function CartDrawer() {
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">{item.colorName} • {t("product.size")}: {item.size}</p>
-                      <p className="font-semibold text-[#1D1D1F] mt-1">{item.price} MAD</p>
+                      
+                      {item.isBundle ? (
+                        <div className="text-xs text-gray-500 mt-1 space-y-0.5">
+                          {item.components?.map(c => (
+                            <div key={c.productId}>- {c.name} : {c.colorName} ({c.size})</div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-xs text-gray-500 mt-1">{item.colorName} • {t("product.size")}: {item.size}</p>
+                      )}
+                      
+                      <div className="flex items-center gap-2 mt-1">
+                        <p className="font-semibold text-[#1D1D1F]">{item.price} MAD</p>
+                        {item.isBundle && (
+                           <span className="text-[10px] text-green-600 font-bold bg-green-50 px-1.5 py-0.5 rounded">Économisez 79 DH</span>
+                        )}
+                      </div>
                     </div>
                     <div className="flex items-center gap-3 mt-2">
                       <div className="flex items-center border border-gray-200 rounded-lg">
@@ -125,6 +148,36 @@ export default function CartDrawer() {
                   </div>
                 </div>
               ))}
+
+              {/* Cross-Sell */}
+              {hasEnsemble && !hasSandals && !hasBundle && (
+                <div className="bg-[#F5F5F7] p-4 rounded-xl border border-gray-100 text-center">
+                  <p className="text-sm font-medium text-[#1D1D1F] mb-3">
+                    Ajoutez les Sandales Maya et profitez du Look Alma à 429 DH avec livraison offerte.
+                  </p>
+                  <Link
+                    to="/product/look-alma-complet"
+                    onClick={() => setIsCartOpen(false)}
+                    className="inline-block w-full bg-white text-[#1D1D1F] border border-[#1D1D1F] py-2.5 rounded-full text-sm font-medium hover:bg-gray-50 transition"
+                  >
+                    Découvrir le Look Alma
+                  </Link>
+                </div>
+              )}
+              {hasSandals && !hasEnsemble && !hasBundle && (
+                <div className="bg-[#F5F5F7] p-4 rounded-xl border border-gray-100 text-center">
+                  <p className="text-sm font-medium text-[#1D1D1F] mb-3">
+                    Ajoutez l’Ensemble Alma et profitez du look complet à 429 DH.
+                  </p>
+                  <Link
+                    to="/product/look-alma-complet"
+                    onClick={() => setIsCartOpen(false)}
+                    className="inline-block w-full bg-white text-[#1D1D1F] border border-[#1D1D1F] py-2.5 rounded-full text-sm font-medium hover:bg-gray-50 transition"
+                  >
+                    Découvrir le Look Alma
+                  </Link>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -137,14 +190,15 @@ export default function CartDrawer() {
             </div>
             <div className="flex justify-between mb-4 text-sm">
               <span className="text-gray-600">{t("cart.shipping")}</span>
-              <span className={totalQuantity >= 2 ? "text-green-600 font-medium" : "text-[#1D1D1F] font-medium"}>
-                {totalQuantity >= 2 ? t("cart.free") : "40 MAD"}
+              <span className={isShippingFree ? "text-green-600 font-medium" : "text-[#1D1D1F] font-medium"}>
+                {isShippingFree ? t("cart.free") : "40 MAD"}
               </span>
             </div>
             <div className="flex justify-between mb-6 text-lg font-medium">
               <span>{t("cart.total")}</span>
-              <span>{totalQuantity >= 2 ? totalPrice : totalPrice + 40} MAD</span>
+              <span>{totalPrice + shippingCost} MAD</span>
             </div>
+            
             <button
               onClick={handleCheckout}
               className="w-full bg-[#1D1D1F] text-white py-4 rounded-2xl font-medium tracking-wide hover:bg-[#1D1D1F]/90 transition-colors"

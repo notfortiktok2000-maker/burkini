@@ -93,7 +93,7 @@ export default function Home() {
           <img
             src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=2000&ar=16:9"
             alt="Elegant Women's Clothing Hero"
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-contain object-center"
           />
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
@@ -143,12 +143,13 @@ export default function Home() {
       {/* Featured Products */}
       <section className="max-w-7xl mx-auto px-4 py-24">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-medium tracking-wide mb-4">{t("home.new_arrivals")}</h2>
+          <h2 className="text-3xl font-medium tracking-wide mb-4">Boutique</h2>
           <div className="w-16 h-1 bg-[#1D1D1F] mx-auto rounded-full"></div>
         </div>
 
-        <div ref={productGridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {displayProducts.map((product) => (
+        <div ref={productGridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Card: Ensemble Alma */}
+          {displayProducts.filter(p => p.slug === 'ensemble-alma').map((product) => (
             <Link key={product.id} to={`/product/${product.slug}`} className="group block">
               <div className="relative aspect-[3/4] overflow-hidden bg-[#F5F5F7] mb-4 rounded-2xl">
                 <ProductImage
@@ -165,6 +166,7 @@ export default function Home() {
                 />
               </div>
               <h3 className="font-bold text-[#1D1D1F] mb-1 text-lg">{product.name[language]}</h3>
+              <p className="text-gray-500 text-sm mb-2">{product.hook[language]}</p>
               <div className="flex items-center gap-2">
                 <span className="font-semibold text-[#1D1D1F]">{product.price} DH</span>
                 {product.originalPrice && (
@@ -173,6 +175,79 @@ export default function Home() {
               </div>
             </Link>
           ))}
+
+          {/* Card: Sandales Maya */}
+          {displayProducts.filter(p => p.slug === 'sandales-maya').map((product) => (
+            <div key={product.id} className="group block">
+              <Link to={`/product/${product.slug}`}>
+                <div className="relative aspect-[3/4] overflow-hidden bg-[#F5F5F7] mb-4 rounded-2xl">
+                  <ProductImage
+                    color={product.colors[0]}
+                    type="main"
+                    alt={product.name[language]}
+                    className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0 z-10"
+                  />
+                  <ProductImage
+                    color={product.colors[1] || product.colors[0]}
+                    type="main"
+                    alt={`${product.name[language]} angle`}
+                    className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700"
+                  />
+                </div>
+              </Link>
+              <h3 className="font-bold text-[#1D1D1F] mb-1 text-lg">{product.name[language]}</h3>
+              <p className="text-gray-500 text-sm mb-2">Trois couleurs faciles à porter</p>
+              <p className="text-gray-400 text-xs mb-2">Noir • Blanc • Marron cognac</p>
+              <div className="flex items-center gap-2 mb-4">
+                <span className="font-semibold text-[#1D1D1F]">{product.price} DH</span>
+              </div>
+              <div className="flex gap-2">
+                <Link to={`/product/${product.slug}`} className="flex-1 text-center bg-[#1D1D1F] text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-[#1D1D1F]/90 transition">
+                  Voir les sandales
+                </Link>
+                <Link to={`/product/${product.slug}`} className="flex-1 text-center bg-gray-100 text-[#1D1D1F] px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-200 transition">
+                  Choisir ma couleur
+                </Link>
+              </div>
+            </div>
+          ))}
+
+          {/* Card: Look Alma Complet */}
+          <div className="group block border border-gray-200 rounded-2xl p-4 bg-gray-50/50">
+            <Link to="/product/look-alma-complet">
+              <div className="relative aspect-[3/4] overflow-hidden bg-white mb-4 rounded-xl flex">
+                <div className="w-1/2 h-full border-r border-gray-100 relative">
+                   <img src="/images/alma-blue-main.webp" alt="Ensemble" className="w-full h-full object-cover" />
+                </div>
+                <div className="w-1/2 h-full flex flex-col">
+                  <div className="h-1/2 border-b border-gray-100 relative">
+                    <img src="/images/sandales-maya-blanc-main.webp" alt="Sandales" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="h-1/2 relative">
+                    <img src="/images/alma-blue-lifestyle.webp" alt="Lifestyle" className="w-full h-full object-cover" />
+                  </div>
+                </div>
+                <div className="absolute top-2 right-2 bg-[#1D1D1F] text-white text-xs font-bold px-2 py-1 rounded">
+                  Offre look complet
+                </div>
+              </div>
+            </Link>
+            <h3 className="font-bold text-[#1D1D1F] mb-1 text-lg">Look Alma Complet</h3>
+            <p className="text-gray-500 text-sm mb-2">Ensemble Alma + Sandales Maya</p>
+            <div className="flex flex-col gap-1 mb-4">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-[#1D1D1F]">429 DH</span>
+                <span className="text-xs text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded">Économisez 79 DH</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-400 line-through">Valeur : 508 DH livraison comprise</span>
+                <span className="text-xs font-medium text-[#1D1D1F]">Livraison offerte</span>
+              </div>
+            </div>
+            <Link to="/product/look-alma-complet" className="block text-center w-full bg-[#1D1D1F] text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-[#1D1D1F]/90 transition">
+              Découvrir le look complet
+            </Link>
+          </div>
         </div>
       </section>
 

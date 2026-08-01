@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 export interface CartItem {
-  id: string; // unique ID for cart item, usually productId + size + colorId
+  id: string; // unique ID for cart item, usually productId + size + colorId (or custom for bundles)
   productId: string;
   name: string;
   price: number;
@@ -10,11 +10,20 @@ export interface CartItem {
   colorId: string;
   colorName: string;
   quantity: number;
+  isBundle?: boolean;
+  components?: {
+    productId: string;
+    name: string;
+    colorId: string;
+    colorName: string;
+    size: string;
+    sku: string;
+  }[];
 }
 
 interface CartContextType {
   items: CartItem[];
-  addToCart: (item: Omit<CartItem, "id">) => void;
+  addToCart: (item: Omit<CartItem, "id"> | CartItem) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -42,10 +51,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     sessionStorage.setItem("modest_swim_cart", JSON.stringify(items));
   }, [items]);
 
-  const addToCart = (newItem: Omit<CartItem, "id">) => {
+  const addToCart = (newItem: Omit<CartItem, "id"> | CartItem) => {
     setItems((prev) => {
+      // Determine the ID
+      const itemId = (newItem as CartItem).id || `${newItem.productId}-${newItem.colorId}-${newItem.size}`;
+      
       const existingItemIndex = prev.findIndex(
-        (item) => item.productId === newItem.productId && item.size === newItem.size && item.colorId === newItem.colorId
+        (item) => item.id === itemId
       );
 
       if (existingItemIndex >= 0) {
@@ -53,8 +65,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         updated[existingItemIndex].quantity += newItem.quantity;
         return updated;
       }
-
-      return [...prev, { ...newItem, id: `${newItem.productId}-${newItem.colorId}-${newItem.size}` }];
+      return [...prev, { ...newItem, id: itemId }];
     });
     setIsCartOpen(true);
   };

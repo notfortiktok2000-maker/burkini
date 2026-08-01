@@ -19,7 +19,10 @@ export default function Checkout() {
     adresse: "",
   });
 
+  const hasBundle = items.some(i => i.isBundle);
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+  const isShippingFree = hasBundle || totalQuantity >= 2;
+  const shippingCost = isShippingFree ? 0 : 40;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -43,14 +46,21 @@ export default function Checkout() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const totalToPay = totalQuantity >= 2 ? totalPrice : totalPrice + 40;
+    const totalToPay = totalPrice + shippingCost;
     
     let message = language === 'ar' 
       ? `*طلب جديد*\n\n*الاسم:* ${formData.nom}\n*الهاتف:* ${formData.telephone}\n*المدينة:* ${formData.ville}\n*العنوان:* ${formData.adresse}\n\n*المنتجات:*\n`
       : `*Nouvelle commande*\n\n*Nom:* ${formData.nom}\n*Téléphone:* ${formData.telephone}\n*Ville:* ${formData.ville}\n*Adresse:* ${formData.adresse}\n\n*Articles:*\n`;
 
     items.forEach(item => {
-      message += `- ${item.quantity}x ${item.name} (${item.colorName} • ${language === 'ar' ? 'المقاس' : 'Taille'}: ${item.size}) - ${item.price} MAD\n`;
+      if (item.isBundle) {
+        message += `- ${item.quantity}x ${item.name} (${item.price} MAD)\n`;
+        item.components?.forEach(c => {
+          message += `  • ${c.name} : ${c.colorName}, ${language === 'ar' ? 'المقاس' : 'Taille'}: ${c.size}\n`;
+        });
+      } else {
+        message += `- ${item.quantity}x ${item.name} (${item.colorName} • ${language === 'ar' ? 'المقاس' : 'Taille'}: ${item.size}) - ${item.price} MAD\n`;
+      }
     });
 
     message += language === 'ar'
@@ -175,11 +185,10 @@ export default function Checkout() {
         <div className="lg:col-span-5">
           <div ref={summaryRef} className="bg-[#F5F5F7] p-6 md:p-8 rounded-2xl sticky top-24">
             <h2 className="text-xl font-medium tracking-wide mb-6">{t("checkout.summary")}</h2>
-            
             <div className="space-y-4 mb-6 max-h-[40vh] overflow-y-auto no-scrollbar pr-2">
               {items.map(item => (
                 <div key={item.id} className="flex gap-4">
-                  <div className="relative">
+                  <div className="relative shrink-0">
                     <img src={item.image} alt={item.name} className="w-16 h-20 object-cover border border-gray-200 rounded-lg" />
                     <span className="absolute -top-2 -right-2 bg-[#1D1D1F] text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-medium">
                       {item.quantity}
@@ -187,33 +196,41 @@ export default function Checkout() {
                   </div>
                   <div className="flex-1 text-sm">
                     <h4 className="font-bold text-[#1D1D1F]">{item.name}</h4>
-                    <p className="text-gray-500">{item.colorName} • {t("product.size")}: {item.size}</p>
-                    <p className="font-semibold mt-1">{item.price} MAD</p>
+                    {item.isBundle ? (
+                      <div className="text-xs text-gray-500 mt-1 space-y-0.5">
+                        {item.components?.map(c => (
+                          <div key={c.productId}>- {c.name} : {c.colorName} ({c.size})</div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-500">{item.colorName} • {t("product.size")}: {item.size}</p>
+                    )}
+                    <p className="font-semibold mt-1 text-[#1D1D1F]">{item.price} MAD</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="border-t border-gray-300 pt-4 space-y-3 text-sm">
+            <div className="border-t border-gray-200 pt-4 space-y-3 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-600">{t("cart.subtotal")}</span>
                 <span className="font-semibold">{totalPrice} MAD</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">{t("cart.shipping")}</span>
-                <span className={totalQuantity >= 2 ? "text-green-600 font-medium text-right" : "text-[#1D1D1F] font-medium text-right"}>
-                  {totalQuantity >= 2 ? t("cart.free") : "40 MAD"}
-                  {totalQuantity >= 2 && (
+                <span className={isShippingFree ? "text-green-600 font-medium text-right" : "text-[#1D1D1F] font-medium text-right"}>
+                  {isShippingFree ? t("cart.free") : "40 MAD"}
+                  {isShippingFree && (
                     <><br/><span className="text-xs text-gray-500 font-normal">24-48h partout au Maroc</span></>
                   )}
                 </span>
               </div>
             </div>
 
-            <div className="border-t border-gray-300 mt-4 pt-4">
-              <div className="flex justify-between items-center text-lg font-medium">
+            <div className="border-t border-gray-200 mt-4 pt-4">
+              <div className="flex justify-between items-center text-lg font-bold">
                 <span>{t("cart.total")}</span>
-                <span>{totalQuantity >= 2 ? totalPrice : totalPrice + 40} MAD</span>
+                <span>{totalPrice + shippingCost} MAD</span>
               </div>
             </div>
           </div>

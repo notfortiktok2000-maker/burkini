@@ -53,13 +53,13 @@ export const products: Product[] = [
           {
             type: "main",
             src: "/images/alma-blue-main.webp",
-            fallback: "/images/alma-blue-main.png",
+            fallback: "/images/alma-blue-main.webp",
             alt: "Ensemble Alma bleu floral porté devant un grand miroir"
           },
           {
             type: "lifestyle",
             src: "/images/alma-blue-lifestyle.webp",
-            fallback: "/images/alma-blue-lifestyle.png",
+            fallback: "/images/alma-blue-lifestyle.webp",
             alt: "Femme portant l’Ensemble Alma bleu floral avec un sac dans une chambre"
           }
         ]
@@ -72,13 +72,13 @@ export const products: Product[] = [
           {
             type: "main",
             src: "/images/alma-burgundy-main.webp",
-            fallback: "/images/alma-burgundy-main.png",
+            fallback: "/images/alma-burgundy-main.webp",
             alt: "Ensemble Alma bordeaux floral porté devant un grand miroir"
           },
           {
             type: "lifestyle",
             src: "/images/alma-burgundy-lifestyle.webp",
-            fallback: "/images/alma-burgundy-lifestyle.png",
+            fallback: "/images/alma-burgundy-lifestyle.webp",
             alt: "Femme portant l’Ensemble Alma bordeaux floral avec un sac dans une chambre"
           }
         ]
@@ -86,5 +86,86 @@ export const products: Product[] = [
     ],
     sizes: ["S", "M", "L", "XL", "XXL"],
     stockCount: 15,
+  },
+  {
+    id: "SANDALES-MAYA",
+    slug: "sandales-maya",
+    name: { fr: "Sandales Maya", ar: "صندل مايا" },
+    hook: {
+      fr: "La paire facile à associer à toutes vos tenues d’été.",
+      ar: "الزوج الذي يسهل تنسيقه مع جميع إطلالاتك الصيفية."
+    },
+    description: {
+      fr: "Les Sandales Maya apportent une finition simple et élégante à vos tenues du quotidien. Leur silhouette plate, leurs brides fines et leur détail métallique créent un modèle facile à porter avec un ensemble fluide, une robe, un jean ou un pantalon large.",
+      ar: "يضفي صندل مايا لمسة بسيطة وأنيقة على ملابسك اليومية. شكله المسطح وأشرطته الرفيعة وتفاصيله المعدنية تجعله نموذجًا يسهل ارتداؤه مع طقم انسيابي أو فستان أو جينز أو سروال واسع."
+    },
+    price: 219,
+    originalPrice: null,
+    colors: [
+      {
+        id: "noir",
+        name: { fr: "Noir", ar: "أسود" },
+        value: "#1D1D1F",
+        images: [
+          {
+            type: "main",
+            src: "/images/sandales-maya-noir-main.webp",
+            fallback: "/images/sandales-maya-noir-main.webp",
+            alt: "Sandales Maya noires portées aux pieds"
+          }
+        ]
+      },
+      {
+        id: "blanc",
+        name: { fr: "Blanc", ar: "أبيض" },
+        value: "#F5F5F7",
+        images: [
+          {
+            type: "main",
+            src: "/images/sandales-maya-blanc-main.webp",
+            fallback: "/images/sandales-maya-blanc-main.webp",
+            alt: "Sandales Maya blanches portées aux pieds"
+          },
+          {
+            type: "detail",
+            src: "/images/sandales-maya-blanc-detail.webp",
+            fallback: "/images/sandales-maya-blanc-detail.webp",
+            alt: "Détail des Sandales Maya blanches tenues à la main"
+          }
+        ]
+      },
+      {
+        id: "marron-cognac",
+        name: { fr: "Marron cognac", ar: "بني كونياك" },
+        value: "#8B4513",
+        images: [
+          {
+            type: "main",
+            src: "/images/sandales-maya-cognac-main.webp",
+            fallback: "/images/sandales-maya-cognac-main.webp",
+            alt: "Sandales Maya marron cognac portées aux pieds"
+          }
+        ]
+      }
+    ],
+    sizes: ["36", "37", "38", "39", "40", "41"],
+    stockCount: 50,
   }
 ];
+
+export const lookAlmaBundle = {
+  id: "LOOK-ALMA",
+  slug: "look-alma-complet",
+  name: { fr: "Look Alma Complet", ar: "طقم ألما الكامل" },
+  price: 429,
+  separateProductsValue: 478,
+  normalShipping: 30,
+  normalDeliveredTotal: 508,
+  customerSavings: 79,
+  bundleShipping: 0,
+  currency: "MAD",
+  includes: [
+    "prod_alma",
+    "SANDALES-MAYA"
+  ]
+};

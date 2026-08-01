@@ -110,6 +110,37 @@ export default function Catalog() {
             </div>
           </Link>
         ))}
+
+        {/* Bundle Product Card */}
+        <Link to="/product/look-alma-complet" className="group block">
+          <div className="relative aspect-[3/4] overflow-hidden bg-white mb-4 rounded-2xl flex border border-gray-100">
+            <div className="w-1/2 h-full border-r border-gray-100 relative">
+                <img src="/images/alma-blue-main.webp" alt="Ensemble" className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0 z-10" />
+                <img src="/images/alma-blue-lifestyle.webp" alt="Ensemble Angle" className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700" />
+            </div>
+            <div className="w-1/2 h-full flex flex-col relative">
+                <div className="h-1/2 border-b border-gray-100 relative">
+                  <img src="/images/sandales-maya-blanc-main.webp" alt="Sandales" className="w-full h-full object-cover absolute inset-0 z-10 transition-opacity duration-500 group-hover:opacity-0" />
+                  <img src="/images/sandales-maya-blanc-detail.webp" alt="Sandales Detail" className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700" />
+                </div>
+                <div className="h-1/2 relative">
+                  <img src="/images/alma-blue-lifestyle.webp" alt="Lifestyle" className="w-full h-full object-cover absolute inset-0" />
+                </div>
+            </div>
+            <div className="absolute top-3 right-3 z-20 bg-[#1D1D1F] text-white text-xs font-medium px-3 py-1 tracking-wide rounded-md">
+              Offre Complète
+            </div>
+          </div>
+          <h3 className="font-bold text-[#1D1D1F] mb-1 text-lg">Look Alma Complet</h3>
+          <p className="text-sm text-gray-500 mb-2 truncate">Ensemble + Sandales</p>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="font-semibold text-[#1D1D1F]">429 DH</span>
+            <span className="text-sm text-gray-400 line-through">508 DH</span>
+          </div>
+          <div className="w-full text-center border border-[#1D1D1F] py-3 text-sm font-semibold tracking-wide rounded-2xl group-hover:bg-[#1D1D1F] group-hover:text-white transition-colors">
+            {t("catalog.view_product")}
+          </div>
+        </Link>
       </div>
     </div>
   );

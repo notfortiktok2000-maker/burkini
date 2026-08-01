@@ -2,13 +2,13 @@ import { Product as ShopifyProduct } from "shopify-buy";
 import { Product as LocalProduct } from "../data/products";
 
 export function mapShopifyProducts(shopifyProducts: ShopifyProduct[]): LocalProduct[] {
-  return shopifyProducts.map(shopifyProduct => {
+  return shopifyProducts.filter(p => p && p.title).map(shopifyProduct => {
     // Try to extract images
-    const images = shopifyProduct.images.map(img => ({
-      type: "main",
-      src: img.src,
-      fallback: img.src,
-      alt: shopifyProduct.title
+    const images = (shopifyProduct.images || []).map((img: any, index: number) => ({
+      type: index === 0 ? "main" : index === 1 ? "lifestyle" : `angle${index}`,
+      src: img.url || img.originalSrc || img.src,
+      fallback: img.url || img.originalSrc || img.src,
+      alt: img.altText || shopifyProduct.title
     }));
     
     if (images.length === 0) {
