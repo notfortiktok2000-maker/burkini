@@ -53,13 +53,13 @@ export const products: Product[] = [
           {
             type: "main",
             src: "/images/alma-blue-main.webp",
-            fallback: "/images/alma-blue-main.webp",
+            fallback: "/images/alma-blue-main.png",
             alt: "Ensemble Alma bleu floral porté devant un grand miroir"
           },
           {
             type: "lifestyle",
             src: "/images/alma-blue-lifestyle.webp",
-            fallback: "/images/alma-blue-lifestyle.webp",
+            fallback: "/images/alma-blue-lifestyle.png",
             alt: "Femme portant l’Ensemble Alma bleu floral avec un sac dans une chambre"
           }
         ]
@@ -72,13 +72,13 @@ export const products: Product[] = [
           {
             type: "main",
             src: "/images/alma-burgundy-main.webp",
-            fallback: "/images/alma-burgundy-main.webp",
+            fallback: "/images/alma-burgundy-main.png",
             alt: "Ensemble Alma bordeaux floral porté devant un grand miroir"
           },
           {
             type: "lifestyle",
             src: "/images/alma-burgundy-lifestyle.webp",
-            fallback: "/images/alma-burgundy-lifestyle.webp",
+            fallback: "/images/alma-burgundy-lifestyle.png",
             alt: "Femme portant l’Ensemble Alma bordeaux floral avec un sac dans une chambre"
           }
         ]
@@ -110,7 +110,7 @@ export const products: Product[] = [
           {
             type: "main",
             src: "/images/sandales-maya-noir-main.webp",
-            fallback: "/images/sandales-maya-noir-main.webp",
+            fallback: "/images/sandales-maya-noir-main.jpg",
             alt: "Sandales Maya noires portées aux pieds"
           }
         ]
@@ -123,13 +123,13 @@ export const products: Product[] = [
           {
             type: "main",
             src: "/images/sandales-maya-blanc-main.webp",
-            fallback: "/images/sandales-maya-blanc-main.webp",
+            fallback: "/images/sandales-maya-blanc-main.jpg",
             alt: "Sandales Maya blanches portées aux pieds"
           },
           {
             type: "detail",
             src: "/images/sandales-maya-blanc-detail.webp",
-            fallback: "/images/sandales-maya-blanc-detail.webp",
+            fallback: "/images/sandales-maya-blanc-detail.jpg",
             alt: "Détail des Sandales Maya blanches tenues à la main"
           }
         ]
@@ -142,7 +142,7 @@ export const products: Product[] = [
           {
             type: "main",
             src: "/images/sandales-maya-cognac-main.webp",
-            fallback: "/images/sandales-maya-cognac-main.webp",
+            fallback: "/images/sandales-maya-cognac-main.jpg",
             alt: "Sandales Maya marron cognac portées aux pieds"
           }
         ]
