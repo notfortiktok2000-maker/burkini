@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ProductColor, ProductMedia } from '../data/products';
 import { cn } from '../utils';
 
@@ -7,11 +7,12 @@ interface ProductImageProps {
   type?: 'main' | 'lifestyle' | 'angle' | 'front';
   alt: string;
   className?: string;
-  fetchpriority?: 'high' | 'low' | 'auto';
+  fetchPriority?: 'high' | 'low' | 'auto';
   key?: string | number;
 }
 
-export function ProductImage({ color, type = 'main', alt, className, fetchpriority }: ProductImageProps) {
+export function ProductImage({ color, type = 'main', alt, className, fetchPriority }: ProductImageProps) {
+  const [error, setError] = useState(false);
   let media: ProductMedia | undefined;
 
   if (Array.isArray(color.images)) {
@@ -24,20 +25,29 @@ export function ProductImage({ color, type = 'main', alt, className, fetchpriori
     media = { type, src, fallback: src, alt };
   }
 
-  if (!media) return null;
+  if (!media || error) return (
+      <div className={cn("w-full h-full bg-gray-50 flex items-center justify-center text-sm text-gray-500 text-center p-4", className)}>
+        <span>Image momentanément indisponible</span>
+      </div>
+  );
 
   const imgSrc = media.fallback || media.src;
 
   return (
     <picture className={cn("block w-full h-full", className)}>
-      {media.src && media.src.endsWith('.webp') && (
+      {media.src && media.src.endsWith('.webp') && !error && (
         <source srcSet={media.src} type="image/webp" />
       )}
       <img
         src={imgSrc}
         alt={media.alt || alt}
         className="w-full h-full object-cover"
-        loading={fetchpriority === 'high' ? 'eager' : 'lazy'}
+        loading={fetchPriority === 'high' ? 'eager' : 'lazy'}
+        fetchPriority={fetchPriority}
+        onError={() => {
+          console.error(`Failed to load image: ${imgSrc}`);
+          setError(true);
+        }}
       />
     </picture>
   );

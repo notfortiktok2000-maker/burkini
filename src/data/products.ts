@@ -1,5 +1,7 @@
+import { productImages } from "./imageManifest";
+
 export interface ProductMedia {
-  type: "main" | "lifestyle" | string;
+  type: "main" | "lifestyle" | "detail" | string;
   src: string;
   fallback: string;
   alt: string;
@@ -9,11 +11,7 @@ export interface ProductColor {
   id: string;
   name: { fr: string; ar: string };
   value: string;
-  images: {
-    front: string;
-    angle: string;
-    detail?: string;
-  } | ProductMedia[];
+  images: ProductMedia[];
 }
 
 export interface Product {
@@ -52,15 +50,15 @@ export const products: Product[] = [
         images: [
           {
             type: "main",
-            src: "/images/alma-blue-main.webp",
-            fallback: "/images/alma-blue-main.png",
-            alt: "Ensemble Alma bleu floral porté devant un grand miroir"
+            src: productImages.ensembleAlma.blue.main.webp,
+            fallback: productImages.ensembleAlma.blue.main.fallback,
+            alt: productImages.ensembleAlma.blue.main.alt
           },
           {
             type: "lifestyle",
-            src: "/images/alma-blue-lifestyle.webp",
-            fallback: "/images/alma-blue-lifestyle.png",
-            alt: "Femme portant l’Ensemble Alma bleu floral avec un sac dans une chambre"
+            src: productImages.ensembleAlma.blue.lifestyle.webp,
+            fallback: productImages.ensembleAlma.blue.lifestyle.fallback,
+            alt: productImages.ensembleAlma.blue.lifestyle.alt
           }
         ]
       },
@@ -71,15 +69,15 @@ export const products: Product[] = [
         images: [
           {
             type: "main",
-            src: "/images/alma-burgundy-main.webp",
-            fallback: "/images/alma-burgundy-main.png",
-            alt: "Ensemble Alma bordeaux floral porté devant un grand miroir"
+            src: productImages.ensembleAlma.burgundy.main.webp,
+            fallback: productImages.ensembleAlma.burgundy.main.fallback,
+            alt: productImages.ensembleAlma.burgundy.main.alt
           },
           {
             type: "lifestyle",
-            src: "/images/alma-burgundy-lifestyle.webp",
-            fallback: "/images/alma-burgundy-lifestyle.png",
-            alt: "Femme portant l’Ensemble Alma bordeaux floral avec un sac dans une chambre"
+            src: productImages.ensembleAlma.burgundy.lifestyle.webp,
+            fallback: productImages.ensembleAlma.burgundy.lifestyle.fallback,
+            alt: productImages.ensembleAlma.burgundy.lifestyle.alt
           }
         ]
       }
@@ -109,9 +107,9 @@ export const products: Product[] = [
         images: [
           {
             type: "main",
-            src: "/images/sandales-maya-noir-main.webp",
-            fallback: "/images/sandales-maya-noir-main.jpg",
-            alt: "Sandales Maya noires portées aux pieds"
+            src: productImages.sandalesMaya.black.main.webp,
+            fallback: productImages.sandalesMaya.black.main.fallback,
+            alt: productImages.sandalesMaya.black.main.alt
           }
         ]
       },
@@ -122,15 +120,15 @@ export const products: Product[] = [
         images: [
           {
             type: "main",
-            src: "/images/sandales-maya-blanc-main.webp",
-            fallback: "/images/sandales-maya-blanc-main.jpg",
-            alt: "Sandales Maya blanches portées aux pieds"
+            src: productImages.sandalesMaya.white.main.webp,
+            fallback: productImages.sandalesMaya.white.main.fallback,
+            alt: productImages.sandalesMaya.white.main.alt
           },
           {
             type: "detail",
-            src: "/images/sandales-maya-blanc-detail.webp",
-            fallback: "/images/sandales-maya-blanc-detail.jpg",
-            alt: "Détail des Sandales Maya blanches tenues à la main"
+            src: productImages.sandalesMaya.white.detail.webp,
+            fallback: productImages.sandalesMaya.white.detail.fallback,
+            alt: productImages.sandalesMaya.white.detail.alt
           }
         ]
       },
@@ -141,9 +139,9 @@ export const products: Product[] = [
         images: [
           {
             type: "main",
-            src: "/images/sandales-maya-cognac-main.webp",
-            fallback: "/images/sandales-maya-cognac-main.jpg",
-            alt: "Sandales Maya marron cognac portées aux pieds"
+            src: productImages.sandalesMaya.cognac.main.webp,
+            fallback: productImages.sandalesMaya.cognac.main.fallback,
+            alt: productImages.sandalesMaya.cognac.main.alt
           }
         ]
       }

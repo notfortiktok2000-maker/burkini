@@ -1,3 +1,4 @@
+import { productImages } from "../data/imageManifest";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
@@ -115,16 +116,16 @@ export default function Catalog() {
         <Link to="/product/look-alma-complet" className="group block">
           <div className="relative aspect-[3/4] overflow-hidden bg-white mb-4 rounded-2xl flex border border-gray-100">
             <div className="w-1/2 h-full border-r border-gray-100 relative">
-                <img src="/images/alma-blue-main.webp" alt="Ensemble" className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0 z-10" />
-                <img src="/images/alma-blue-lifestyle.webp" alt="Ensemble Angle" className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700" />
+                <img src={productImages.ensembleAlma.blue.main.webp} alt="Ensemble" className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0 z-10" />
+                <img src={productImages.ensembleAlma.blue.lifestyle.webp} alt="Ensemble Angle" className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700" />
             </div>
             <div className="w-1/2 h-full flex flex-col relative">
                 <div className="h-1/2 border-b border-gray-100 relative">
-                  <img src="/images/sandales-maya-blanc-main.webp" alt="Sandales" className="w-full h-full object-cover absolute inset-0 z-10 transition-opacity duration-500 group-hover:opacity-0" />
-                  <img src="/images/sandales-maya-blanc-detail.webp" alt="Sandales Detail" className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700" />
+                  <img src={productImages.sandalesMaya.white.main.webp} alt="Sandales" className="w-full h-full object-cover absolute inset-0 z-10 transition-opacity duration-500 group-hover:opacity-0" />
+                  <img src={productImages.sandalesMaya.white.detail.webp} alt="Sandales Detail" className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700" />
                 </div>
                 <div className="h-1/2 relative">
-                  <img src="/images/alma-blue-lifestyle.webp" alt="Lifestyle" className="w-full h-full object-cover absolute inset-0" />
+                  <img src={productImages.ensembleAlma.blue.lifestyle.webp} alt="Lifestyle" className="w-full h-full object-cover absolute inset-0" />
                 </div>
             </div>
             <div className="absolute top-3 right-3 z-20 bg-[#1D1D1F] text-white text-xs font-medium px-3 py-1 tracking-wide rounded-md">

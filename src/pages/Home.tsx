@@ -1,3 +1,4 @@
+import { productImages } from "../data/imageManifest";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
@@ -217,14 +218,14 @@ export default function Home() {
             <Link to="/product/look-alma-complet">
               <div className="relative aspect-[3/4] overflow-hidden bg-white mb-4 rounded-xl flex">
                 <div className="w-1/2 h-full border-r border-gray-100 relative">
-                   <img src="/images/alma-blue-main.webp" alt="Ensemble" className="w-full h-full object-cover" />
+                   <img src={productImages.ensembleAlma.blue.main.webp} alt="Ensemble" className="w-full h-full object-cover" />
                 </div>
                 <div className="w-1/2 h-full flex flex-col">
                   <div className="h-1/2 border-b border-gray-100 relative">
-                    <img src="/images/sandales-maya-blanc-main.webp" alt="Sandales" className="w-full h-full object-cover" />
+                    <img src={productImages.sandalesMaya.white.main.webp} alt="Sandales" className="w-full h-full object-cover" />
                   </div>
                   <div className="h-1/2 relative">
-                    <img src="/images/alma-blue-lifestyle.webp" alt="Lifestyle" className="w-full h-full object-cover" />
+                    <img src={productImages.ensembleAlma.blue.lifestyle.webp} alt="Lifestyle" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 <div className="absolute top-2 right-2 bg-[#1D1D1F] text-white text-xs font-bold px-2 py-1 rounded">
