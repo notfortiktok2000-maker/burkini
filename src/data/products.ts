@@ -3,7 +3,6 @@ import { productImages } from "./imageManifest";
 export interface ProductMedia {
   type: "main" | "lifestyle" | "detail" | string;
   src: string;
-  fallback: string;
   alt: string;
 }
 
@@ -50,13 +49,13 @@ export const products: Product[] = [
         images: [
           {
             type: "main",
-            src: productImages.ensembleAlma.blue.main.webp,
+            src: productImages.ensembleAlma.blue.main.src,
             fallback: productImages.ensembleAlma.blue.main.fallback,
             alt: productImages.ensembleAlma.blue.main.alt
           },
           {
             type: "lifestyle",
-            src: productImages.ensembleAlma.blue.lifestyle.webp,
+            src: productImages.ensembleAlma.blue.lifestyle.src,
             fallback: productImages.ensembleAlma.blue.lifestyle.fallback,
             alt: productImages.ensembleAlma.blue.lifestyle.alt
           }
@@ -69,13 +68,13 @@ export const products: Product[] = [
         images: [
           {
             type: "main",
-            src: productImages.ensembleAlma.burgundy.main.webp,
+            src: productImages.ensembleAlma.burgundy.main.src,
             fallback: productImages.ensembleAlma.burgundy.main.fallback,
             alt: productImages.ensembleAlma.burgundy.main.alt
           },
           {
             type: "lifestyle",
-            src: productImages.ensembleAlma.burgundy.lifestyle.webp,
+            src: productImages.ensembleAlma.burgundy.lifestyle.src,
             fallback: productImages.ensembleAlma.burgundy.lifestyle.fallback,
             alt: productImages.ensembleAlma.burgundy.lifestyle.alt
           }
@@ -107,7 +106,7 @@ export const products: Product[] = [
         images: [
           {
             type: "main",
-            src: productImages.sandalesMaya.black.main.webp,
+            src: productImages.sandalesMaya.black.main.src,
             fallback: productImages.sandalesMaya.black.main.fallback,
             alt: productImages.sandalesMaya.black.main.alt
           }
@@ -120,13 +119,13 @@ export const products: Product[] = [
         images: [
           {
             type: "main",
-            src: productImages.sandalesMaya.white.main.webp,
+            src: productImages.sandalesMaya.white.main.src,
             fallback: productImages.sandalesMaya.white.main.fallback,
             alt: productImages.sandalesMaya.white.main.alt
           },
           {
             type: "detail",
-            src: productImages.sandalesMaya.white.detail.webp,
+            src: productImages.sandalesMaya.white.detail.src,
             fallback: productImages.sandalesMaya.white.detail.fallback,
             alt: productImages.sandalesMaya.white.detail.alt
           }
@@ -139,7 +138,7 @@ export const products: Product[] = [
         images: [
           {
             type: "main",
-            src: productImages.sandalesMaya.cognac.main.webp,
+            src: productImages.sandalesMaya.cognac.main.src,
             fallback: productImages.sandalesMaya.cognac.main.fallback,
             alt: productImages.sandalesMaya.cognac.main.alt
           }

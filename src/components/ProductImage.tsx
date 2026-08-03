@@ -22,7 +22,7 @@ export function ProductImage({ color, type = 'main', alt, className, fetchPriori
   } else {
     // Legacy support
     const src = (type === 'main' || type === 'front') ? (color.images as any).front : (color.images as any).angle;
-    media = { type, src, fallback: src, alt };
+    media = { type, src, alt };
   }
 
   if (!media || error) return (
@@ -31,24 +31,19 @@ export function ProductImage({ color, type = 'main', alt, className, fetchPriori
       </div>
   );
 
-  const imgSrc = media.fallback || media.src;
-
   return (
-    <picture className={cn("block w-full h-full", className)}>
-      {media.src && media.src.endsWith('.webp') && !error && (
-        <source srcSet={media.src} type="image/webp" />
-      )}
+    <div className={cn("block w-full h-full", className)}>
       <img
-        src={imgSrc}
+        src={media.src}
         alt={media.alt || alt}
         className="w-full h-full object-cover"
         loading={fetchPriority === 'high' ? 'eager' : 'lazy'}
         fetchPriority={fetchPriority}
         onError={() => {
-          console.error(`Failed to load image: ${imgSrc}`);
+          console.error(`Failed to load image: ${media.src}`);
           setError(true);
         }}
       />
-    </picture>
+    </div>
   );
 }

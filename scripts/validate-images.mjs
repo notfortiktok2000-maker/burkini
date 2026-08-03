@@ -7,11 +7,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
-// Read the manifest directly since importing ts files in mjs is complex without a loader
 const manifestPath = path.join(rootDir, 'src', 'data', 'imageManifest.ts');
 let manifestContent = fs.readFileSync(manifestPath, 'utf8');
 
-// Extract all URLs from manifest
 const urls = [];
 const regex = /:\s*["']([^"']+)["']/g;
 let match;
@@ -38,15 +36,11 @@ async function validate() {
       continue;
     }
 
-    if (seenUrls.has(url)) {
-      // It's okay if webp and fallback are used in multiple places, but we validate them once
-    }
     seenUrls.add(url);
-
     const localPath = path.join(rootDir, 'public', url);
     
     if (!fs.existsSync(localPath)) {
-      console.error(`ERROR: File does not exist: ${url} (expected at ${localPath})`);
+      console.error(`ERROR: File does not exist: ${url}`);
       hasError = true;
       continue;
     }
@@ -70,7 +64,6 @@ async function validate() {
     }
   }
 
-  // Confirm products have at least one image
   const productsPath = path.join(rootDir, 'src', 'data', 'products.ts');
   const productsContent = fs.readFileSync(productsPath, 'utf8');
   if (productsContent.includes('images: []')) {
