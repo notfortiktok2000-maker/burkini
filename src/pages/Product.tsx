@@ -112,14 +112,15 @@ export default function Product() {
               </button>
             ))}
           </div>
-          <div className="flex-1 aspect-[3/4] bg-[#F5F5F7] overflow-hidden relative rounded-2xl">
+          <div className="flex-1 aspect-[3/4] md:aspect-auto bg-[#F5F5F7] overflow-hidden relative rounded-2xl md:flex md:items-center md:justify-center">
             <ProductImage
               key={activeImage} // Force re-render for simple crossfade
               color={currentColor!}
               type={imagesList[activeImage]?.type as any}
               alt={product.name[language]}
-              className="w-full h-full object-cover animate-fade-in"
-              fetchpriority="high"
+              className="w-full h-full md:h-auto md:max-h-[85vh] object-cover animate-fade-in"
+              imageClassName="md:w-auto md:h-auto md:max-h-[85vh] md:max-w-full md:object-contain"
+              fetchPriority="high"
             />
           </div>
         </div>

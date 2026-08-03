@@ -7,11 +7,12 @@ interface ProductImageProps {
   type?: 'main' | 'lifestyle' | 'angle' | 'front';
   alt: string;
   className?: string;
+  imageClassName?: string;
   fetchPriority?: 'high' | 'low' | 'auto';
   key?: string | number;
 }
 
-export function ProductImage({ color, type = 'main', alt, className, fetchPriority }: ProductImageProps) {
+export function ProductImage({ color, type = 'main', alt, className, imageClassName, fetchPriority }: ProductImageProps) {
   const [error, setError] = useState(false);
   let media: ProductMedia | undefined;
 
@@ -36,7 +37,7 @@ export function ProductImage({ color, type = 'main', alt, className, fetchPriori
       <img
         src={media.src}
         alt={media.alt || alt}
-        className="w-full h-full object-cover"
+        className={cn("w-full h-full object-cover", imageClassName)}
         loading={fetchPriority === 'high' ? 'eager' : 'lazy'}
         fetchPriority={fetchPriority}
         onError={() => {

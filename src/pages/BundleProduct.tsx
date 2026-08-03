@@ -21,11 +21,16 @@ export default function BundleProduct() {
   const [sandalSize, setSandalSize] = useState<string>("");
   const [ensembleColor, setEnsembleColor] = useState<string>(ensembleProduct.colors[0].id);
   const [sandalColor, setSandalColor] = useState<string>(sandalsProduct.colors[0].id);
+  const [activeImage, setActiveImage] = useState(0);
   
   const [error, setError] = useState("");
   
   const contentRef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setActiveImage(0);
+  }, [ensembleColor]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -52,6 +57,11 @@ export default function BundleProduct() {
 
   const selectedEnsembleColorObj = ensembleProduct.colors.find(c => c.id === ensembleColor) || ensembleProduct.colors[0];
   const selectedSandalColorObj = sandalsProduct.colors.find(c => c.id === sandalColor) || sandalsProduct.colors[0];
+
+  const bundleImages = [
+    ...getImageList(selectedEnsembleColorObj).map(m => ({ ...m, product: 'ensemble', colorObj: selectedEnsembleColorObj })),
+    ...getImageList(selectedSandalColorObj).map(m => ({ ...m, product: 'sandal', colorObj: selectedSandalColorObj }))
+  ];
 
   const handleAddToCart = () => {
     if (!ensembleSize) {
@@ -102,35 +112,33 @@ export default function BundleProduct() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
         
         {/* Images */}
-        <div ref={imagesRef} className="flex flex-col gap-4">
-          <div className="aspect-[3/4] bg-[#F5F5F7] overflow-hidden relative rounded-2xl flex border border-gray-100">
-             <div className="w-1/2 h-full border-r border-gray-200">
-                 <ProductImage
-                    color={selectedEnsembleColorObj}
-                    type="main"
-                    alt={ensembleProduct.name[language as 'fr' | 'ar'] || ensembleProduct.name.fr}
-                    className="w-full h-full object-cover"
-                    fetchpriority="high"
-                  />
-             </div>
-             <div className="w-1/2 h-full flex flex-col">
-                 <div className="h-1/2 border-b border-gray-200">
-                   <ProductImage
-                      color={selectedSandalColorObj}
-                      type="main"
-                      alt={sandalsProduct.name[language as 'fr' | 'ar'] || sandalsProduct.name.fr}
-                      className="w-full h-full object-cover"
-                    />
-                 </div>
-                 <div className="h-1/2">
-                    <ProductImage
-                      color={selectedEnsembleColorObj}
-                      type="lifestyle"
-                      alt="Lifestyle"
-                      className="w-full h-full object-cover"
-                    />
-                 </div>
-             </div>
+        <div ref={imagesRef} className="flex flex-col-reverse md:flex-row gap-4">
+          <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-visible no-scrollbar pb-2 md:pb-0">
+            {bundleImages.map((media, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveImage(idx)}
+                className={cn(
+                  "flex-shrink-0 w-20 h-24 md:w-24 md:h-32 overflow-hidden border rounded-2xl transition-all",
+                  activeImage === idx ? "border-[#1D1D1F]" : "border-transparent opacity-60 hover:opacity-100"
+                )}
+              >
+                <ProductImage color={media.colorObj} type={media.type as any} alt="" className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+          <div className="flex-1 aspect-[3/4] md:aspect-auto bg-[#F5F5F7] overflow-hidden relative rounded-2xl md:flex md:items-center md:justify-center">
+            {bundleImages[activeImage] && (
+              <ProductImage
+                key={`${activeImage}-${bundleImages[activeImage].product}`}
+                color={bundleImages[activeImage].colorObj}
+                type={bundleImages[activeImage].type as any}
+                alt={bundleImages[activeImage].product === 'ensemble' ? (ensembleProduct.name[language as 'fr' | 'ar'] || ensembleProduct.name.fr) : (sandalsProduct.name[language as 'fr' | 'ar'] || sandalsProduct.name.fr)}
+                className="w-full h-full md:h-auto md:max-h-[85vh] object-cover animate-fade-in"
+                imageClassName="md:w-auto md:h-auto md:max-h-[85vh] md:max-w-full md:object-contain"
+                fetchPriority="high"
+              />
+            )}
           </div>
         </div>
 
