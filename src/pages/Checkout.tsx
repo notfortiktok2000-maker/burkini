@@ -90,21 +90,21 @@ export default function Checkout() {
   if (items.length === 0) return null;
 
   return (
-    <div className="pt-24 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
-      <div className="text-center mb-10">
-        <h1 className="text-3xl font-medium tracking-wide">{t("checkout.title")}</h1>
+    <div className="pt-32 pb-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
+      <div className="text-center mb-16">
+        <h1 className="text-4xl font-serif font-light tracking-wide">{t("checkout.title")}</h1>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Form */}
         <div className="lg:col-span-7">
-          <form ref={formRef} onSubmit={handleSubmit} className="bg-white p-6 md:p-8 shadow-sm border border-gray-100 rounded-2xl">
-            <h2 className="text-xl font-medium tracking-wide mb-6">{t("checkout.delivery_info")}</h2>
+          <form ref={formRef} onSubmit={handleSubmit} className="bg-white p-8 md:p-10 shadow-sm border border-black/10">
+            <h2 className="font-serif text-2xl font-light mb-8">{t("checkout.delivery_info")}</h2>
             
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="nom" className="block text-sm font-medium text-gray-700 mb-2">{t("checkout.name")}</label>
+                  <label htmlFor="nom" className="block font-sans text-[10px] uppercase tracking-widest text-black/70 mb-3">{t("checkout.name")}</label>
                   <input
                     type="text"
                     id="nom"
@@ -112,12 +112,12 @@ export default function Checkout() {
                     required
                     value={formData.nom}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:border-[#1D1D1F] focus:ring-1 focus:ring-brand-navy transition-all"
+                    className="w-full border-b border-black/20 py-3 bg-transparent font-sans text-sm font-light text-black placeholder:text-black/30 focus:outline-none focus:border-black transition-colors"
                     placeholder="ex: Fatima Zahra"
                   />
                 </div>
                 <div>
-                  <label htmlFor="telephone" className="block text-sm font-medium text-gray-700 mb-2">{t("checkout.phone")}</label>
+                  <label htmlFor="telephone" className="block font-sans text-[10px] uppercase tracking-widest text-black/70 mb-3">{t("checkout.phone")}</label>
                   <input
                     type="tel"
                     id="telephone"
@@ -125,14 +125,14 @@ export default function Checkout() {
                     required
                     value={formData.telephone}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:border-[#1D1D1F] focus:ring-1 focus:ring-brand-navy transition-all"
+                    className="w-full border-b border-black/20 py-3 bg-transparent font-sans text-sm font-light text-black placeholder:text-black/30 focus:outline-none focus:border-black transition-colors"
                     placeholder="ex: 06 00 00 00 00"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="ville" className="block text-sm font-medium text-gray-700 mb-2">{t("checkout.city")}</label>
+                <label htmlFor="ville" className="block font-sans text-[10px] uppercase tracking-widest text-black/70 mb-3">{t("checkout.city")}</label>
                 <input
                   type="text"
                   id="ville"
@@ -140,13 +140,13 @@ export default function Checkout() {
                   required
                   value={formData.ville}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:border-[#1D1D1F] focus:ring-1 focus:ring-brand-navy transition-all"
+                  className="w-full border-b border-black/20 py-3 bg-transparent font-sans text-sm font-light text-black placeholder:text-black/30 focus:outline-none focus:border-black transition-colors"
                   placeholder="ex: Casablanca"
                 />
               </div>
 
               <div>
-                <label htmlFor="adresse" className="block text-sm font-medium text-gray-700 mb-2">{t("checkout.address")}</label>
+                <label htmlFor="adresse" className="block font-sans text-[10px] uppercase tracking-widest text-black/70 mb-3">{t("checkout.address")}</label>
                 <input
                   type="text"
                   id="adresse"
@@ -154,25 +154,25 @@ export default function Checkout() {
                   required
                   value={formData.adresse}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:border-[#1D1D1F] focus:ring-1 focus:ring-brand-navy transition-all"
+                  className="w-full border-b border-black/20 py-3 bg-transparent font-sans text-sm font-light text-black placeholder:text-black/30 focus:outline-none focus:border-black transition-colors"
                   placeholder={language === 'ar' ? 'الحي، الشارع، رقم المنزل...' : 'Quartier, rue, numéro de maison...'}
                 />
               </div>
             </div>
 
-            <h2 className="text-xl font-medium tracking-wide mt-10 mb-6">{t("checkout.payment_method")}</h2>
-            <div className="border border-[#1D1D1F] bg-[#F5F5F7]/50 p-4 rounded-2xl flex items-center gap-4 cursor-pointer">
-              <input type="radio" id="cod" name="payment" defaultChecked className="w-5 h-5 text-[#1D1D1F] focus:ring-brand-navy" />
-              <label htmlFor="cod" className="flex-1 font-medium cursor-pointer">
+            <h2 className="font-serif text-2xl font-light mt-12 mb-8">{t("checkout.payment_method")}</h2>
+            <div className="border border-black bg-[var(--color-luxury-ivory)] p-6 flex items-center gap-4 cursor-pointer">
+              <input type="radio" id="cod" name="payment" defaultChecked className="w-4 h-4 text-black focus:ring-black accent-black" />
+              <label htmlFor="cod" className="flex-1 font-sans text-sm font-medium tracking-wide text-black cursor-pointer">
                 {t("checkout.cod")}
-                <span className="block text-sm text-gray-500 font-normal mt-1">{t("checkout.cod_desc")}</span>
+                <span className="block font-sans text-xs font-light text-black/60 mt-1">{t("checkout.cod_desc")}</span>
               </label>
             </div>
 
             <div className="mt-10">
               <button
                 type="submit"
-                className="w-full bg-[#1D1D1F] text-white h-14 rounded-full font-medium tracking-tight hover:bg-[#1D1D1F]/90 transition-colors flex items-center justify-center gap-2"
+                className="w-full bg-black text-white h-14 font-sans text-[10px] uppercase tracking-[0.2em] hover:bg-black/80 transition-colors duration-300 flex items-center justify-center gap-3 shadow-xl"
               >
                 <Lock className="w-4 h-4" />
                 {t("checkout.confirm")}
@@ -183,52 +183,52 @@ export default function Checkout() {
 
         {/* Order Summary */}
         <div className="lg:col-span-5">
-          <div ref={summaryRef} className="bg-[#F5F5F7] p-6 md:p-8 rounded-2xl sticky top-24">
-            <h2 className="text-xl font-medium tracking-wide mb-6">{t("checkout.summary")}</h2>
+          <div ref={summaryRef} className="bg-[var(--color-luxury-cream)] p-8 md:p-10 sticky top-24 border border-black/5">
+            <h2 className="font-serif text-2xl font-light mb-8">{t("checkout.summary")}</h2>
             <div className="space-y-4 mb-6 max-h-[40vh] overflow-y-auto no-scrollbar pr-2">
               {items.map(item => (
                 <div key={item.id} className="flex gap-4">
                   <div className="relative shrink-0">
-                    <img src={item.image} alt={item.name} className="w-16 h-20 object-cover border border-gray-200 rounded-lg" />
-                    <span className="absolute -top-2 -right-2 bg-[#1D1D1F] text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-medium">
+                    <img src={item.image} alt={item.name} className="w-16 h-20 object-cover border border-black/5" />
+                    <span className="absolute -top-2 -right-2 bg-black text-white w-5 h-5 rounded-full flex items-center justify-center font-sans text-[10px] tracking-wider">
                       {item.quantity}
                     </span>
                   </div>
                   <div className="flex-1 text-sm">
-                    <h4 className="font-bold text-[#1D1D1F]">{item.name}</h4>
+                    <h4 className="font-serif text-base text-black mb-1">{item.name}</h4>
                     {item.isBundle ? (
-                      <div className="text-xs text-gray-500 mt-1 space-y-0.5">
+                      <div className="font-sans text-[10px] uppercase tracking-widest text-black/60 mt-1 space-y-0.5">
                         {item.components?.map(c => (
                           <div key={c.productId}>- {c.name} : {c.colorName} ({c.size})</div>
                         ))}
                       </div>
                     ) : (
-                      <p className="text-gray-500">{item.colorName} • {t("product.size")}: {item.size}</p>
+                      <p className="font-sans text-[10px] uppercase tracking-widest text-black/60">{item.colorName} • {t("product.size")}: {item.size}</p>
                     )}
-                    <p className="font-semibold mt-1 text-[#1D1D1F]">{item.price} MAD</p>
+                    <p className="font-sans text-xs font-medium tracking-wide text-black mt-2">{item.price} MAD</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="border-t border-gray-200 pt-4 space-y-3 text-sm">
+            <div className="border-t border-black/10 pt-6 space-y-4 text-sm mt-6">
               <div className="flex justify-between">
-                <span className="text-gray-600">{t("cart.subtotal")}</span>
-                <span className="font-semibold">{totalPrice} MAD</span>
+                <span className="font-sans text-xs tracking-widest uppercase text-black/60">{t("cart.subtotal")}</span>
+                <span className="font-sans text-xs tracking-widest uppercase text-black">{totalPrice} MAD</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">{t("cart.shipping")}</span>
-                <span className={isShippingFree ? "text-green-600 font-medium text-right" : "text-[#1D1D1F] font-medium text-right"}>
+                <span className="font-sans text-xs tracking-widest uppercase text-black/60">{t("cart.shipping")}</span>
+                <span className={isShippingFree ? "font-sans text-xs tracking-widest uppercase text-black text-right" : "font-sans text-xs tracking-widest uppercase text-black text-right"}>
                   {isShippingFree ? t("cart.free") : "40 MAD"}
                   {isShippingFree && (
-                    <><br/><span className="text-xs text-gray-500 font-normal">24-48h partout au Maroc</span></>
+                    <><br/><span className="font-sans text-[9px] uppercase tracking-widest text-black/40 mt-1 block">24-48h partout au Maroc</span></>
                   )}
                 </span>
               </div>
             </div>
 
-            <div className="border-t border-gray-200 mt-4 pt-4">
-              <div className="flex justify-between items-center text-lg font-bold">
+            <div className="border-t border-black/10 mt-6 pt-6">
+              <div className="flex justify-between items-center font-sans text-sm tracking-widest uppercase text-black">
                 <span>{t("cart.total")}</span>
                 <span>{totalPrice + shippingCost} MAD</span>
               </div>

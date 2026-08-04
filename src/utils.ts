@@ -10,17 +10,17 @@ import { ProductColor, ProductMedia } from "./data/products";
 export function getMainImage(color: ProductColor): string {
   if (Array.isArray(color.images)) {
     const main = color.images.find(img => img.type === "main") || color.images[0];
-    return main.fallback || main.src;
+    return main.src;
   }
-  return color.images.front;
+  return (color.images as any).front;
 }
 
 export function getSecondaryImage(color: ProductColor): string {
   if (Array.isArray(color.images)) {
     const sec = color.images.find(img => img.type === "lifestyle" || img.type === "angle") || color.images[1] || color.images[0];
-    return sec.fallback || sec.src;
+    return sec.src;
   }
-  return color.images.angle;
+  return (color.images as any).angle;
 }
 
 export function getImageList(color: ProductColor): ProductMedia[] {
@@ -28,7 +28,7 @@ export function getImageList(color: ProductColor): ProductMedia[] {
     return color.images;
   }
   return [
-    { type: "main", src: color.images.front, fallback: color.images.front, alt: color.name.fr },
-    { type: "lifestyle", src: color.images.angle, fallback: color.images.angle, alt: color.name.fr }
+    { type: "main", src: (color.images as any).front, alt: color.name.fr },
+    { type: "lifestyle", src: (color.images as any).angle, alt: color.name.fr }
   ];
 }

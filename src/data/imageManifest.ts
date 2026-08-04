@@ -1,23 +1,28 @@
+import blueWoman1 from '../assets/images/blue_outfit_woman_1_1785854767718.jpg';
+import blueWoman2 from '../assets/images/blue_outfit_woman_2_1785854783888.jpg';
+import brownWoman1 from '../assets/images/brown_outfit_woman_1_1785854798705.jpg';
+import brownWoman2 from '../assets/images/brown_outfit_woman_2_1785854819550.jpg';
+
 export const productImages = {
   ensembleAlma: {
     blue: {
       main: {
-        src: "https://i.ibb.co/wrx2Kv01/Chat-GPT-Image-Jul-31-2026-12-36-06-AM.png",
+        src: blueWoman1,
         alt: "Ensemble Alma bleu floral porté devant un grand miroir"
       },
       lifestyle: {
-        src: "https://i.ibb.co/1f55RJL1/Chat-GPT-Image-Jul-31-2026-01-01-10-AM-1.png",
-        alt: "Femme portant l’Ensemble Alma bleu floral avec un sac dans une chambre"
+        src: blueWoman2,
+        alt: "Femme portant l’Ensemble Alma bleu floral en ville"
       }
     },
     burgundy: {
       main: {
-        src: "https://i.ibb.co/q3W4L7Yx/Chat-GPT-Image-Jul-31-2026-12-35-54-AM-1.png",
+        src: brownWoman1,
         alt: "Ensemble Alma bordeaux floral porté devant un grand miroir"
       },
       lifestyle: {
-        src: "https://i.ibb.co/v633prWn/Chat-GPT-Image-Jul-31-2026-01-01-10-AM-2.png",
-        alt: "Femme portant l’Ensemble Alma bordeaux floral avec un sac dans une chambre"
+        src: brownWoman2,
+        alt: "Femme portant l’Ensemble Alma bordeaux floral sur un canapé"
       }
     }
   },
@@ -26,6 +31,10 @@ export const productImages = {
       main: {
         src: "https://i.ibb.co/QFYtJSFd/Replace-sandals-in-picture-2-K-202608011809-1.jpg",
         alt: "Sandales Maya noires"
+      },
+      lifestyle: {
+        src: "https://i.ibb.co/vxZ2Gjxc/Replace-sandals-in-picture-2-K-202608011809.jpg",
+        alt: "Black women’s sandals lifestyle product image"
       }
     },
     white: {
@@ -36,6 +45,10 @@ export const productImages = {
       detail: {
         src: "https://i.ibb.co/twdNLN5c/Replace-sandals-with-white-2-K-202608011809.jpg",
         alt: "Détail des Sandales Maya blanches"
+      },
+      lifestyle: {
+        src: "https://i.ibb.co/7x3sRsrx/White-sandals-in-woman-s-hand-202608011809.jpg",
+        alt: "White women’s sandals lifestyle product image"
       }
     },
     cognac: {

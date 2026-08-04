@@ -1,13 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: "Manrope", sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
   
   --color-brand-navy: #1D1D1F;
-  --color-brand-teal: #F5F5F7;
-  --color-brand-sand: #FFFFFF;
+  --color-brand-teal: #F1ECE3;
+  --color-brand-sand: #FAF9F7;
   --color-brand-brown: #86868B;
   --color-brand-accent: #000000;
+  
+  /* Adding some soft luxury colors for backgrounds */
+  --color-luxury-cream: #FDFCFB;
+  --color-luxury-ivory: #F8F7F4;
+  --color-luxury-taupe: #9B9894;
+  --color-luxury-sand: #EAE6DF;
 }
 
 @layer utilities {
@@ -20,27 +27,27 @@
   }
   
   .animate-fade-in {
-    animation: fadeIn 0.4s ease-in-out;
+    animation: fadeIn 0.8s ease-out forwards;
   }
   
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #FFFFFF;
-  color: #1D1D1F;
+  background-color: var(--color-brand-sand);
+  color: var(--color-brand-navy);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.01em;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: 0;
 }

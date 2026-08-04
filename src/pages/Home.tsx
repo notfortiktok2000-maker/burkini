@@ -9,6 +9,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { ProductImage } from "../components/ProductImage";
 import { useShopify } from "../context/ShopifyContext";
 import { mapShopifyProducts } from "../lib/shopifyAdapter";
+import { ProcessSection } from "../components/ProcessSection";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -84,95 +85,104 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="pb-20">
+    <div className="pb-24 bg-white">
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="relative h-screen flex items-center justify-center overflow-hidden"
+        className="relative h-[100dvh] flex flex-col justify-end pb-24 lg:justify-center lg:pb-0 items-center overflow-hidden"
       >
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=2000&ar=16:9"
-            alt="Elegant Women's Clothing Hero"
-            className="w-full h-full object-contain object-center"
+            src="https://i.ibb.co/CKggfGSF/Website-hero-banner-design-Oc-ane-202608041530.jpg"
+            alt="Océane Modest Collection"
+            className="w-full h-full object-cover object-[center_top] md:object-center"
           />
-          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent lg:bg-black/20"></div>
         </div>
-        <div className="relative z-10 text-center text-white px-4">
+        <div className="relative z-10 text-center text-white px-6 w-full flex flex-col items-center">
+          <p className="text-[10px] md:text-xs font-medium tracking-[0.2em] uppercase text-white/80 mb-6 font-sans">
+            {t("hero.eyebrow")}
+          </p>
           <h1
             ref={titleRef}
-            className="text-4xl md:text-6xl font-medium tracking-tight mb-6 max-w-4xl mx-auto leading-tight"
+            className="text-5xl md:text-7xl lg:text-[5.5rem] font-serif font-light mb-8 max-w-4xl mx-auto leading-[1.05]"
           >
             {t("hero.title")}
           </h1>
-          <p className="text-lg md:text-xl font-medium mb-10 max-w-xl mx-auto opacity-90">
+          <p className="text-base md:text-lg font-light mb-12 max-w-xl mx-auto opacity-90 font-sans leading-relaxed">
             {t("hero.subtitle")}
           </p>
           <Link
             ref={ctaRef}
             to="/catalog"
-            className="inline-block bg-white text-[#1D1D1F] px-8 py-4 text-sm font-medium tracking-wide hover:bg-[#F5F5F7] transition-colors rounded-full"
+            className="inline-flex items-center justify-center bg-white text-black px-10 py-4 text-xs font-medium tracking-[0.1em] uppercase hover:bg-black hover:text-white transition-all duration-500 rounded-none w-full md:w-auto"
           >
             {t("hero.cta")}
           </Link>
         </div>
       </section>
 
+      <ProcessSection />
+
       {/* Value Strip */}
-      <section className="bg-[#1D1D1F] text-white py-12">
-        <div className="max-w-7xl mx-auto px-4">
-          <div ref={featuresRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div className="flex flex-col items-center">
-              <Truck className="w-8 h-8 mb-4 text-[#1D1D1F]" />
-              <h3 className="font-bold text-lg mb-2">{t("features.delivery.title")}</h3>
-              <p className="text-gray-400 text-sm">{t("features.delivery.desc")}</p>
+      <section className="bg-[var(--color-luxury-sand)] text-black py-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <div ref={featuresRef} className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-black/10 rtl:divide-x-reverse">
+            <div className="flex flex-col items-center pt-8 md:pt-0">
+              <Truck className="w-6 h-6 mb-6 text-black" strokeWidth={1} />
+              <h3 className="font-serif text-xl mb-3">{t("features.delivery.title")}</h3>
+              <p className="text-black/60 text-sm font-light tracking-wide">{t("features.delivery.desc")}</p>
             </div>
-            <div className="flex flex-col items-center">
-              <CreditCard className="w-8 h-8 mb-4 text-[#1D1D1F]" />
-              <h3 className="font-bold text-lg mb-2">{t("features.cod.title")}</h3>
-              <p className="text-gray-400 text-sm">{t("features.cod.desc")}</p>
+            <div className="flex flex-col items-center pt-8 md:pt-0">
+              <CreditCard className="w-6 h-6 mb-6 text-black" strokeWidth={1} />
+              <h3 className="font-serif text-xl mb-3">{t("features.cod.title")}</h3>
+              <p className="text-black/60 text-sm font-light tracking-wide">{t("features.cod.desc")}</p>
             </div>
-            <div className="flex flex-col items-center">
-              <RefreshCw className="w-8 h-8 mb-4 text-[#1D1D1F]" />
-              <h3 className="font-bold text-lg mb-2">{t("features.exchange.title")}</h3>
-              <p className="text-gray-400 text-sm">{t("features.exchange.desc")}</p>
+            <div className="flex flex-col items-center pt-8 md:pt-0">
+              <RefreshCw className="w-6 h-6 mb-6 text-black" strokeWidth={1} />
+              <h3 className="font-serif text-xl mb-3">{t("features.exchange.title")}</h3>
+              <p className="text-black/60 text-sm font-light tracking-wide">{t("features.exchange.desc")}</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Featured Products */}
-      <section className="max-w-7xl mx-auto px-4 py-24">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-medium tracking-wide mb-4">Boutique</h2>
-          <div className="w-16 h-1 bg-[#1D1D1F] mx-auto rounded-full"></div>
+      <section className="max-w-[1400px] mx-auto px-6 py-32">
+        <div className="text-center mb-24">
+          <p className="text-[10px] font-medium tracking-[0.2em] uppercase text-black/40 mb-4 font-sans">
+            La Sélection
+          </p>
+          <h2 className="text-4xl md:text-5xl font-serif font-light mb-8">Boutique</h2>
         </div>
-
-        <div ref={productGridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <div ref={productGridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
           {/* Card: Ensemble Alma */}
           {displayProducts.filter(p => p.slug === 'ensemble-alma').map((product) => (
             <Link key={product.id} to={`/product/${product.slug}`} className="group block">
-              <div className="relative aspect-[3/4] overflow-hidden bg-[#F5F5F7] mb-4 rounded-2xl">
+              <div className="relative aspect-[3/4] overflow-hidden bg-[var(--color-luxury-ivory)] mb-6">
                 <ProductImage
                   color={product.colors[0]}
                   type="main"
                   alt={product.name[language]}
-                  className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0 z-10"
+                  className="w-full h-full object-cover transition-opacity duration-700 group-hover:opacity-0 absolute inset-0 z-10"
                 />
                 <ProductImage
                   color={product.colors[0]}
                   type="lifestyle"
                   alt={`${product.name[language]} angle`}
-                  className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700"
+                  className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-1000 ease-out"
                 />
               </div>
-              <h3 className="font-bold text-[#1D1D1F] mb-1 text-lg">{product.name[language]}</h3>
-              <p className="text-gray-500 text-sm mb-2">{product.hook[language]}</p>
-              <div className="flex items-center gap-2">
-                <span className="font-semibold text-[#1D1D1F]">{product.price} DH</span>
-                {product.originalPrice && (
-                  <span className="text-sm text-gray-400 line-through">{product.originalPrice} DH</span>
-                )}
+              <div className="text-center px-4">
+                <h3 className="font-serif text-xl text-black mb-2">{product.name[language]}</h3>
+                <p className="text-black/50 text-sm mb-4 font-light">{product.hook[language]}</p>
+                <div className="flex items-center justify-center gap-3">
+                  <span className="font-medium text-black tracking-wide">{product.price} DH</span>
+                  {product.originalPrice && (
+                    <span className="text-sm text-black/40 line-through">{product.originalPrice} DH</span>
+                  )}
+                </div>
               </div>
             </Link>
           ))}
@@ -181,97 +191,116 @@ export default function Home() {
           {displayProducts.filter(p => p.slug === 'sandales-maya').map((product) => (
             <div key={product.id} className="group block">
               <Link to={`/product/${product.slug}`}>
-                <div className="relative aspect-[3/4] overflow-hidden bg-[#F5F5F7] mb-4 rounded-2xl">
+                <div className="relative aspect-[3/4] overflow-hidden bg-[var(--color-luxury-ivory)] mb-6">
                   <ProductImage
                     color={product.colors[0]}
                     type="main"
                     alt={product.name[language]}
-                    className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0 z-10"
+                    className="w-full h-full object-cover transition-opacity duration-700 group-hover:opacity-0 absolute inset-0 z-10"
                   />
                   <ProductImage
                     color={product.colors[1] || product.colors[0]}
                     type="main"
                     alt={`${product.name[language]} angle`}
-                    className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700"
+                    className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-1000 ease-out"
                   />
                 </div>
               </Link>
-              <h3 className="font-bold text-[#1D1D1F] mb-1 text-lg">{product.name[language]}</h3>
-              <p className="text-gray-500 text-sm mb-2">Trois couleurs faciles à porter</p>
-              <p className="text-gray-400 text-xs mb-2">Noir • Blanc • Marron cognac</p>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="font-semibold text-[#1D1D1F]">{product.price} DH</span>
+              <div className="text-center px-4 mb-6">
+                <h3 className="font-serif text-xl text-black mb-2">{product.name[language]}</h3>
+                <p className="text-black/50 text-sm mb-2 font-light">Trois couleurs faciles à porter</p>
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <span className="font-medium text-black tracking-wide">{product.price} DH</span>
+                </div>
               </div>
-              <div className="flex gap-2">
-                <Link to={`/product/${product.slug}`} className="flex-1 text-center bg-[#1D1D1F] text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-[#1D1D1F]/90 transition">
+              <div className="flex flex-col gap-3 px-4">
+                <Link to={`/product/${product.slug}`} className="w-full text-center bg-black text-white px-6 py-4 text-xs font-medium tracking-widest uppercase hover:bg-black/80 transition-all duration-300">
                   Voir les sandales
-                </Link>
-                <Link to={`/product/${product.slug}`} className="flex-1 text-center bg-gray-100 text-[#1D1D1F] px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-200 transition">
-                  Choisir ma couleur
                 </Link>
               </div>
             </div>
           ))}
 
           {/* Card: Look Alma Complet */}
-          <div className="group block border border-gray-200 rounded-2xl p-4 bg-gray-50/50">
+          <div className="group block bg-[var(--color-luxury-cream)] p-6">
             <Link to="/product/look-alma-complet">
-              <div className="relative aspect-[3/4] overflow-hidden bg-white mb-4 rounded-xl flex">
-                <div className="w-1/2 h-full border-r border-gray-100 relative">
+              <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6 flex">
+                <div className="w-1/2 h-full border-r border-black/5 relative">
                    <img src={productImages.ensembleAlma.blue.main.src} alt="Ensemble" className="w-full h-full object-cover" />
                 </div>
                 <div className="w-1/2 h-full flex flex-col">
-                  <div className="h-1/2 border-b border-gray-100 relative">
+                  <div className="h-1/2 border-b border-black/5 relative">
                     <img src={productImages.sandalesMaya.white.main.src} alt="Sandales" className="w-full h-full object-cover" />
                   </div>
                   <div className="h-1/2 relative">
                     <img src={productImages.ensembleAlma.blue.lifestyle.src} alt="Lifestyle" className="w-full h-full object-cover" />
                   </div>
                 </div>
-                <div className="absolute top-2 right-2 bg-[#1D1D1F] text-white text-xs font-bold px-2 py-1 rounded">
-                  Offre look complet
+                <div className="absolute top-4 right-4 bg-black/90 backdrop-blur-sm text-white text-[10px] uppercase tracking-widest font-medium px-4 py-2">
+                  L'Offre Complète
                 </div>
               </div>
             </Link>
-            <h3 className="font-bold text-[#1D1D1F] mb-1 text-lg">Look Alma Complet</h3>
-            <p className="text-gray-500 text-sm mb-2">Ensemble Alma + Sandales Maya</p>
-            <div className="flex flex-col gap-1 mb-4">
-              <div className="flex items-center gap-2">
-                <span className="font-semibold text-[#1D1D1F]">429 DH</span>
-                <span className="text-xs text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded">Économisez 79 DH</span>
+            <div className="text-center">
+              <h3 className="font-serif text-xl text-black mb-2">Look Alma Complet</h3>
+              <p className="text-black/50 text-sm mb-4 font-light">Ensemble Alma + Sandales Maya</p>
+              
+              <div className="flex flex-col gap-2 mb-6">
+                <div className="flex items-center justify-center gap-3">
+                  <span className="font-medium text-black tracking-wide">429 DH</span>
+                  <span className="text-[10px] uppercase tracking-widest text-[#7C9A92] font-medium bg-[#7C9A92]/10 px-3 py-1">-79 DH</span>
+                </div>
+                <div className="flex items-center justify-center gap-3">
+                  <span className="text-xs text-black/40 line-through">Valeur : 508 DH</span>
+                  <span className="text-[10px] uppercase tracking-widest font-medium text-black">Livraison offerte</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-400 line-through">Valeur : 508 DH livraison comprise</span>
-                <span className="text-xs font-medium text-[#1D1D1F]">Livraison offerte</span>
-              </div>
+              
+              <Link to="/product/look-alma-complet" className="block text-center w-full bg-transparent border border-black text-black px-6 py-4 text-xs font-medium tracking-widest uppercase hover:bg-black hover:text-white transition-all duration-300">
+                Découvrir le look
+              </Link>
             </div>
-            <Link to="/product/look-alma-complet" className="block text-center w-full bg-[#1D1D1F] text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-[#1D1D1F]/90 transition">
-              Découvrir le look complet
-            </Link>
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="bg-[#F5F5F7] py-24">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-medium tracking-wide mb-12">{t("home.testimonials.title")}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white p-8 shadow-sm rounded-2xl border border-gray-100">
-              <div className="text-[#1D1D1F] mb-4">★★★★★</div>
-              <p className="italic text-gray-700 mb-4">
+      <section className="bg-[var(--color-luxury-ivory)] py-32">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <p className="text-[10px] font-medium tracking-[0.2em] uppercase text-black/40 mb-4 font-sans">
+            Témoignages
+          </p>
+          <h2 className="text-4xl md:text-5xl font-serif font-light mb-20">{t("home.testimonials.title")}</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
+            <div className="flex flex-col items-center">
+              <div className="flex gap-1 mb-8 text-black">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                ))}
+              </div>
+              <p className="font-serif text-2xl lg:text-3xl font-light italic text-black leading-relaxed mb-8">
                 {t("home.testimonials.1")}
               </p>
-              <p className="font-bold text-sm uppercase">— Salma T.</p>
+              <p className="font-sans text-[10px] font-medium tracking-[0.2em] uppercase text-black/50">— Salma T.</p>
             </div>
-            <div className="bg-white p-8 shadow-sm rounded-2xl border border-gray-100">
-              <div className="text-[#1D1D1F] mb-4">★★★★★</div>
-              <p className="italic text-gray-700 mb-4">
+            
+            <div className="flex flex-col items-center">
+              <div className="flex gap-1 mb-8 text-black">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                ))}
+              </div>
+              <p className="font-serif text-2xl lg:text-3xl font-light italic text-black leading-relaxed mb-8">
                 {t("home.testimonials.2")}
               </p>
-              <p className="font-bold text-sm uppercase">— Fatima Z.</p>
+              <p className="font-sans text-[10px] font-medium tracking-[0.2em] uppercase text-black/50">— Fatima Z.</p>
             </div>
-          </div>
+        </div>
         </div>
       </section>
     </div>

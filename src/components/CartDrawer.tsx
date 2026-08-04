@@ -1,9 +1,9 @@
+import { useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { X, Minus, Plus, Trash2 } from "lucide-react";
+import gsap from "gsap";
 import { useCart } from "../context/CartContext";
 import { useLanguage } from "../context/LanguageContext";
-import { X, Plus, Minus, Trash2 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
 import { cn } from "../utils";
 
 export default function CartDrawer() {
@@ -15,20 +15,24 @@ export default function CartDrawer() {
 
   useEffect(() => {
     if (isCartOpen) {
-      document.body.style.overflow = "hidden";
-      gsap.to(overlayRef.current, { autoAlpha: 1, duration: 0.3 });
-      gsap.to(drawerRef.current, { [language === "ar" ? "x" : "x"]: 0, duration: 0.4, ease: "power3.out" });
+      document.body.style.overflow = 'hidden';
+      gsap.to(overlayRef.current, { autoAlpha: 1, duration: 0.3, ease: "power2.out" });
+      gsap.to(drawerRef.current, { x: 0, duration: 0.4, ease: "power3.out" });
     } else {
-      document.body.style.overflow = "";
-      gsap.to(overlayRef.current, { autoAlpha: 0, duration: 0.3 });
+      document.body.style.overflow = 'unset';
+      gsap.to(overlayRef.current, { autoAlpha: 0, duration: 0.3, ease: "power2.in" });
       gsap.to(drawerRef.current, { x: language === "ar" ? "-100%" : "100%", duration: 0.4, ease: "power3.in" });
     }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [isCartOpen, language]);
 
-  const handleRemove = (id: string, el: HTMLElement | null) => {
-    if (el) {
-      gsap.to(el, {
+  const handleRemove = (id: string, element: HTMLElement | null) => {
+    if (element) {
+      gsap.to(element, {
         opacity: 0,
+        x: language === "ar" ? -50 : 50,
         height: 0,
         marginBottom: 0,
         paddingTop: 0,
@@ -47,7 +51,6 @@ export default function CartDrawer() {
   };
 
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
-
   const hasEnsemble = items.some(i => i.productId === "prod_alma" && !i.isBundle);
   const hasSandals = items.some(i => i.productId === "SANDALES-MAYA" && !i.isBundle);
   const hasBundle = items.some(i => i.isBundle);
@@ -60,88 +63,88 @@ export default function CartDrawer() {
     <>
       <div
         ref={overlayRef}
-        className="fixed inset-0 bg-black/50 z-50 invisible opacity-0"
+        className="fixed inset-0 bg-black/40 z-50 invisible opacity-0 backdrop-blur-sm"
         onClick={() => setIsCartOpen(false)}
       />
       <div
         ref={drawerRef}
         className={cn(
-          "fixed top-0 h-full w-full max-w-md bg-white z-50 shadow-2xl flex flex-col",
+          "fixed top-0 h-full w-full max-w-md bg-[var(--color-luxury-cream)] z-50 flex flex-col",
           language === "ar" ? "left-0 -translate-x-full" : "right-0 translate-x-full"
         )}
       >
-        <div className="flex items-center justify-between p-4 border-b border-gray-100">
-          <h2 className="text-lg font-medium">{t("cart.title")}</h2>
-          <button onClick={() => setIsCartOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-            <X className="w-5 h-5" />
+        <div className="flex items-center justify-between p-6 border-b border-black/10">
+          <h2 className="font-serif text-2xl font-light tracking-wide">{t("cart.title")}</h2>
+          <button onClick={() => setIsCartOpen(false)} className="p-2 hover:bg-black/5 rounded-full transition-colors duration-300">
+            <X className="w-5 h-5 text-black" strokeWidth={1} />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto p-6">
           {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-center space-y-4 text-gray-500">
-              <p>{t("cart.empty")}</p>
+            <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
+              <p className="font-serif text-xl font-light text-black/50">{t("cart.empty")}</p>
               <Link
                 to="/catalog"
                 onClick={() => setIsCartOpen(false)}
-                className="text-[#1D1D1F] font-medium hover:underline"
+                className="font-sans text-[10px] uppercase tracking-[0.2em] border-b border-black pb-1 hover:text-black/70 hover:border-black/70 transition-colors"
               >
                 {t("cart.back_to_shop")}
               </Link>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-8">
               {totalQuantity >= 2 && !hasBundle && (
-                <div className="bg-green-100 text-green-800 text-xs font-medium px-3 py-2 rounded-lg text-center tracking-wide">
-                  🎉 Livraison gratuite activée !
+                <div className="bg-[var(--color-luxury-ivory)] border border-black/5 text-black font-sans text-xs uppercase tracking-widest px-4 py-3 text-center">
+                  Livraison gratuite activée
                 </div>
               )}
               {items.map((item) => (
-                <div key={item.id} id={`cart-item-${item.id}`} className="flex gap-4 border-b border-gray-50 pb-4">
-                  <img src={item.image} alt={item.name} className="w-20 h-24 object-cover rounded-2xl border border-gray-100" />
+                <div key={item.id} id={`cart-item-${item.id}`} className="flex gap-6 border-b border-black/5 pb-6">
+                  <img src={item.image} alt={item.name} className="w-24 h-32 object-cover border border-black/5" />
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
-                      <div className="flex justify-between">
-                        <h3 className="font-medium text-sm text-[#1D1D1F]">{item.name}</h3>
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-serif text-lg text-black leading-tight pr-4">{item.name}</h3>
                         <button
                           onClick={() => handleRemove(item.id, document.getElementById(`cart-item-${item.id}`))}
-                          className="text-gray-400 hover:text-red-500 transition-colors"
+                          className="text-black/40 hover:text-black transition-colors"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-4 h-4" strokeWidth={1} />
                         </button>
                       </div>
                       
                       {item.isBundle ? (
-                        <div className="text-xs text-gray-500 mt-1 space-y-0.5">
+                        <div className="font-sans text-[10px] uppercase tracking-widest text-black/60 mt-3 space-y-1">
                           {item.components?.map(c => (
                             <div key={c.productId}>- {c.name} : {c.colorName} ({c.size})</div>
                           ))}
                         </div>
                       ) : (
-                        <p className="text-xs text-gray-500 mt-1">{item.colorName} • {t("product.size")}: {item.size}</p>
+                        <p className="font-sans text-[10px] uppercase tracking-widest text-black/60 mt-3">{item.colorName} • {item.size}</p>
                       )}
                       
-                      <div className="flex items-center gap-2 mt-1">
-                        <p className="font-semibold text-[#1D1D1F]">{item.price} MAD</p>
+                      <div className="flex items-center gap-3 mt-3">
+                        <p className="font-sans text-xs font-medium tracking-wide text-black">{item.price} MAD</p>
                         {item.isBundle && (
-                           <span className="text-[10px] text-green-600 font-bold bg-green-50 px-1.5 py-0.5 rounded">Économisez 79 DH</span>
+                           <span className="font-sans text-[9px] uppercase tracking-widest text-black/60 border border-black/20 px-2 py-1">-79 DH</span>
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center gap-3 mt-2">
-                      <div className="flex items-center border border-gray-200 rounded-lg">
+                    <div className="flex items-center gap-3 mt-4">
+                      <div className="flex items-center border border-black/10">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="px-2 py-1 text-gray-500 hover:bg-gray-50 transition-colors rounded-l-lg"
+                          className="px-3 py-2 text-black/50 hover:bg-black/5 transition-colors"
                         >
-                          <Minus className="w-3 h-3" />
+                          <Minus className="w-3 h-3" strokeWidth={1} />
                         </button>
-                        <span className="px-2 text-sm font-medium">{item.quantity}</span>
+                        <span className="px-3 font-sans text-xs">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="px-2 py-1 text-gray-500 hover:bg-gray-50 transition-colors rounded-r-lg"
+                          className="px-3 py-2 text-black/50 hover:bg-black/5 transition-colors"
                         >
-                          <Plus className="w-3 h-3" />
+                          <Plus className="w-3 h-3" strokeWidth={1} />
                         </button>
                       </div>
                     </div>
@@ -151,30 +154,32 @@ export default function CartDrawer() {
 
               {/* Cross-Sell */}
               {hasEnsemble && !hasSandals && !hasBundle && (
-                <div className="bg-[#F5F5F7] p-4 rounded-xl border border-gray-100 text-center">
-                  <p className="text-sm font-medium text-[#1D1D1F] mb-3">
-                    Ajoutez les Sandales Maya et profitez du Look Alma à 429 DH avec livraison offerte.
+                <div className="bg-[var(--color-luxury-ivory)] p-6 border border-black/5 text-center mt-8">
+                  <h4 className="font-serif text-xl italic text-black mb-3">Le Look Alma</h4>
+                  <p className="font-sans text-xs font-light tracking-wide text-black/70 mb-5 leading-relaxed">
+                    Ajoutez les Sandales Maya et profitez de la tenue complète à 429 DH. Livraison offerte.
                   </p>
                   <Link
                     to="/product/look-alma-complet"
                     onClick={() => setIsCartOpen(false)}
-                    className="inline-block w-full bg-white text-[#1D1D1F] border border-[#1D1D1F] py-2.5 rounded-full text-sm font-medium hover:bg-gray-50 transition"
+                    className="inline-block w-full bg-transparent text-black border border-black py-3 font-sans text-[10px] uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-500"
                   >
-                    Découvrir le Look Alma
+                    Découvrir l'offre
                   </Link>
                 </div>
               )}
               {hasSandals && !hasEnsemble && !hasBundle && (
-                <div className="bg-[#F5F5F7] p-4 rounded-xl border border-gray-100 text-center">
-                  <p className="text-sm font-medium text-[#1D1D1F] mb-3">
-                    Ajoutez l’Ensemble Alma et profitez du look complet à 429 DH.
+                <div className="bg-[var(--color-luxury-ivory)] p-6 border border-black/5 text-center mt-8">
+                  <h4 className="font-serif text-xl italic text-black mb-3">Le Look Alma</h4>
+                  <p className="font-sans text-xs font-light tracking-wide text-black/70 mb-5 leading-relaxed">
+                    Ajoutez l’Ensemble Alma et profitez de la tenue complète à 429 DH. Livraison offerte.
                   </p>
                   <Link
                     to="/product/look-alma-complet"
                     onClick={() => setIsCartOpen(false)}
-                    className="inline-block w-full bg-white text-[#1D1D1F] border border-[#1D1D1F] py-2.5 rounded-full text-sm font-medium hover:bg-gray-50 transition"
+                    className="inline-block w-full bg-transparent text-black border border-black py-3 font-sans text-[10px] uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-500"
                   >
-                    Découvrir le Look Alma
+                    Découvrir l'offre
                   </Link>
                 </div>
               )}
@@ -183,29 +188,29 @@ export default function CartDrawer() {
         </div>
 
         {items.length > 0 && (
-          <div className="p-4 border-t border-gray-100 bg-gray-50">
-            <div className="flex justify-between mb-2">
-              <span className="text-gray-600">{t("cart.subtotal")}</span>
-              <span className="font-semibold">{totalPrice} MAD</span>
+          <div className="p-6 border-t border-black/10 bg-white">
+            <div className="flex justify-between mb-3 font-sans text-xs tracking-widest text-black/60 uppercase">
+              <span>{t("cart.subtotal")}</span>
+              <span className="text-black">{totalPrice} MAD</span>
             </div>
-            <div className="flex justify-between mb-4 text-sm">
-              <span className="text-gray-600">{t("cart.shipping")}</span>
-              <span className={isShippingFree ? "text-green-600 font-medium" : "text-[#1D1D1F] font-medium"}>
+            <div className="flex justify-between mb-6 font-sans text-xs tracking-widest text-black/60 uppercase">
+              <span>{t("cart.shipping")}</span>
+              <span className={isShippingFree ? "text-black" : "text-black"}>
                 {isShippingFree ? t("cart.free") : "40 MAD"}
               </span>
             </div>
-            <div className="flex justify-between mb-6 text-lg font-medium">
+            <div className="flex justify-between mb-8 font-sans text-sm tracking-widest text-black uppercase">
               <span>{t("cart.total")}</span>
               <span>{totalPrice + shippingCost} MAD</span>
             </div>
             
             <button
               onClick={handleCheckout}
-              className="w-full bg-[#1D1D1F] text-white py-4 rounded-2xl font-medium tracking-wide hover:bg-[#1D1D1F]/90 transition-colors"
+              className="w-full bg-black text-white py-4 font-sans text-xs tracking-[0.2em] uppercase hover:bg-black/80 transition-colors duration-300 shadow-xl"
             >
               {t("cart.checkout")}
             </button>
-            <p className="text-center text-xs text-gray-500 mt-3 flex justify-center items-center gap-1">
+            <p className="text-center font-sans text-[9px] uppercase tracking-widest text-black/40 mt-4">
               {t("cart.cod_available")}
             </p>
           </div>

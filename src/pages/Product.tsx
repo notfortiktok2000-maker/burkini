@@ -127,71 +127,23 @@ export default function Product() {
 
         {/* Content */}
         <div ref={contentRef} className="flex flex-col">
-          <h1 className="text-3xl lg:text-4xl font-medium tracking-tight mb-2">
+          <h1 className="text-4xl lg:text-5xl font-serif font-light mb-4">
             {product.name[language]}
           </h1>
-          <p className="text-lg text-gray-500 mb-6 font-medium">{product.hook[language]}</p>
+          <p className="text-lg text-black/60 mb-8 font-light">{product.hook[language]}</p>
           
-          <div className="flex flex-wrap items-center gap-4 mb-4">
-            <span className="text-3xl font-medium text-[#1D1D1F]">{product.price} MAD</span>
+          <div className="flex flex-wrap items-center gap-4 mb-10">
+            <span className="text-2xl font-serif text-black">{product.price} MAD</span>
             {product.originalPrice && (
-              <span className="text-xl text-gray-400 line-through">{product.originalPrice} MAD</span>
+              <span className="text-lg text-black/40 line-through font-light">{product.originalPrice} MAD</span>
             )}
-            <span className="mx-auto md:ml-auto md:mr-0 bg-green-100 text-green-800 text-xs font-medium px-3 py-1.5 tracking-wide rounded-lg flex items-center gap-1">
-              <Check className="w-4 h-4" /> {t("product.in_stock")}
+            <span className="mx-auto md:ml-auto md:mr-0 bg-black/5 text-black/70 text-[10px] uppercase tracking-widest px-4 py-2 flex items-center gap-2">
+              <Check className="w-3 h-3" strokeWidth={1.5} /> {t("product.in_stock")}
             </span>
           </div>
 
-          {/* Upsell Promo block */}
-          {product.originalPrice && (
-            <div className="flex items-center gap-2 text-[#1D1D1F] font-medium mb-6 bg-[#1D1D1F]/10 px-4 py-2 rounded-lg">
-              <TrendingDown className="w-5 h-5" />
-              {t("product.promo_saved")}
-            </div>
-          )}
-
-          {/* Trust Block */}
-          <div className="flex justify-between items-start gap-4 mb-8 py-6 border-y border-gray-100">
-            <div className="flex flex-col items-center text-center gap-2 flex-1">
-              <Globe className="w-10 h-10 text-[#1D1D1F]" strokeWidth={1.5} />
-              <span className="text-[11px] font-medium tracking-wide leading-tight">
-                {language === "ar" ? (
-                  <>توصيل مجاني<br/>لجميع المدن</>
-                ) : (
-                  <>Livraison gratuite<br/>partout</>
-                )}
-              </span>
-            </div>
-            <div className="flex flex-col items-center text-center gap-2 flex-1 border-x border-gray-100 px-2">
-              <div className="relative">
-                <Truck className="w-10 h-10 text-[#1D1D1F]" strokeWidth={1.5} />
-                <Clock className="w-5 h-5 text-[#1D1D1F] absolute -bottom-1 -right-2 bg-white rounded-full" strokeWidth={2} />
-              </div>
-              <span className="text-[11px] font-medium tracking-wide leading-tight">Livraison<br/>Express</span>
-            </div>
-            <div className="flex flex-col items-center text-center gap-2 flex-1">
-              <Award className="w-10 h-10 text-yellow-500" strokeWidth={1.5} />
-              <span className="text-[11px] font-medium tracking-wide leading-tight">100% Satisfaction<br/>Guarantee</span>
-            </div>
-          </div>
-          
-          <div className="bg-[#F5F5F7] p-4 rounded-2xl mb-8 space-y-3 border border-gray-100">
-            <div className="flex items-start gap-3 font-medium text-[#1D1D1F]">
-              <PackagePlus className="w-5 h-5 text-[#1D1D1F] flex-shrink-0 mt-0.5" />
-              <span className="text-sm font-medium bg-white px-2 py-1 rounded-md border border-gray-200">
-                {t("product.upsell_offer")}
-              </span>
-            </div>
-            {product.stockCount < 10 && (
-              <div className="flex items-center gap-3 text-sm font-medium text-red-600">
-                <AlertCircle className="w-5 h-5" />
-                <span>{t("product.stock_left", { stock: product.stockCount })}</span>
-              </div>
-            )}
-          </div>
-
-          <div className="mb-8">
-            <h3 className="font-bold tracking-wide text-sm mb-4">
+          <div className="mb-10">
+            <h3 className="font-sans text-[10px] tracking-[0.2em] uppercase text-black/50 mb-6">
               <span>{language === 'ar' ? 'اللون' : 'Couleur'}</span>
             </h3>
             <div className="flex gap-4">
@@ -200,10 +152,10 @@ export default function Product() {
                   key={color.id}
                   onClick={() => setSelectedColor(color.id)}
                   className={cn(
-                    "relative w-16 h-20 rounded-2xl overflow-hidden border transition-all",
+                    "relative w-16 h-20 overflow-hidden border transition-all duration-300",
                     selectedColor === color.id
-                      ? "border-[#1D1D1F] shadow-sm scale-105"
-                      : "border-transparent hover:border-gray-300"
+                      ? "border-black shadow-sm"
+                      : "border-transparent hover:border-black/20"
                   )}
                   title={color.name[language]}
                 >
@@ -213,99 +165,97 @@ export default function Product() {
             </div>
           </div>
 
-          <div className="mb-8">
-            <h3 className="font-bold tracking-wide text-sm mb-4 flex justify-between">
+          <div className="mb-10">
+            <h3 className="font-sans text-[10px] tracking-[0.2em] uppercase text-black/50 mb-6 flex justify-between">
               <span>{t("product.size")}</span>
-              <button className="text-gray-500 underline text-xs normal-case">{t("product.size_guide")}</button>
+              <button className="text-black/50 underline hover:text-black transition-colors">{t("product.size_guide")}</button>
             </h3>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-4 gap-4">
               {product.sizes.map((size) => (
                 <button
                   key={size}
                   onClick={() => { setSelectedSize(size); setError(""); }}
                   className={cn(
-                    "py-3 font-medium transition-all border rounded-2xl",
+                    "py-4 font-sans text-xs tracking-widest transition-all border duration-300",
                     selectedSize === size
-                      ? "bg-[#1D1D1F] text-white border-[#1D1D1F] shadow-sm"
-                      : "bg-white text-[#1D1D1F] border-gray-200 hover:border-[#1D1D1F]"
+                      ? "bg-black text-white border-black"
+                      : "bg-transparent text-black border-black/10 hover:border-black/30"
                   )}
                 >
                   {size}
                 </button>
               ))}
             </div>
-            {error && <p className="text-red-500 text-sm mt-2 font-medium">{error}</p>}
+            {error && <p className="text-red-500 text-xs mt-3 font-medium">{error}</p>}
           </div>
 
-          <div className="mb-8">
-            <h3 className="font-bold tracking-wide text-sm mb-4">{t("product.quantity")}</h3>
-            <div className="flex items-center border border-gray-300 w-32 h-12 rounded-2xl overflow-hidden">
+          <div className="mb-12">
+            <h3 className="font-sans text-[10px] tracking-[0.2em] uppercase text-black/50 mb-6">{t("product.quantity")}</h3>
+            <div className="flex items-center border border-black/10 w-32 h-14 bg-transparent transition-colors hover:border-black/30">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-10 h-full flex items-center justify-center hover:bg-gray-50 transition-colors font-medium text-lg"
+                className="w-10 h-full flex items-center justify-center font-light text-lg text-black/70 hover:text-black transition-colors"
               >
                 -
               </button>
-              <span className="flex-1 text-center font-medium">{quantity}</span>
+              <span className="flex-1 text-center font-light text-black">{quantity}</span>
               <button
                 onClick={() => setQuantity(quantity + 1)}
-                className="w-10 h-full flex items-center justify-center hover:bg-gray-50 transition-colors font-medium text-lg"
+                className="w-10 h-full flex items-center justify-center font-light text-lg text-black/70 hover:text-black transition-colors"
               >
                 +
               </button>
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 mt-auto">
+          <div className="flex flex-col gap-4">
             <button
               onClick={handleAddToCart}
-              className="w-full bg-[#1D1D1F] text-white h-14 rounded-full font-medium tracking-tight hover:bg-[#1D1D1F]/90 transition-all shadow-sm"
+              className="w-full bg-black text-white h-14 font-sans text-xs font-medium tracking-widest uppercase hover:bg-black/80 transition-all duration-300"
             >
               {t("product.add_to_cart")}
             </button>
             
-            {/* Upsell / Cross-sell for Look Alma */}
-            {product.slug === 'ensemble-alma' && (
-              <div className="bg-[#F5F5F7] p-4 rounded-2xl border border-gray-100 flex flex-col gap-3">
-                <p className="text-sm font-medium text-gray-700">
-                  Ajoutez les Sandales Maya et transformez votre commande en look complet.
-                </p>
-                <div className="text-sm flex justify-between text-gray-600">
-                  <span>Ensemble : 259 DH</span>
-                  <span>Sandales : 219 DH</span>
-                </div>
-                <div className="text-sm flex justify-between font-bold text-[#1D1D1F]">
-                  <span>Look Alma (Livraison offerte) :</span>
-                  <span>429 DH</span>
-                </div>
-                <div className="text-xs text-green-600 font-bold text-right mb-2">Économisez 79 DH</div>
-                <button
-                  onClick={() => navigate('/product/look-alma-complet', { state: { ensembleColor: selectedColor, ensembleSize: selectedSize } })}
-                  className="w-full bg-white text-[#1D1D1F] border border-[#1D1D1F] h-12 rounded-full font-medium tracking-tight hover:bg-gray-50 transition-all"
-                >
-                  Passer au Look Alma — 429 DH
-                </button>
-              </div>
-            )}
-
-            {product.slug === 'sandales-maya' && (
-              <div className="bg-[#F5F5F7] p-4 rounded-2xl border border-gray-100 flex flex-col gap-3">
-                <p className="text-sm font-medium text-gray-700">
-                  Complétez vos sandales avec l’Ensemble Alma.
-                </p>
-                <button
-                  onClick={() => navigate('/product/look-alma-complet', { state: { sandalColor: selectedColor, sandalSize: selectedSize } })}
-                  className="w-full bg-white text-[#1D1D1F] border border-[#1D1D1F] h-12 rounded-full font-medium tracking-tight hover:bg-gray-50 transition-all"
-                >
-                  Découvrir le Look Alma
-                </button>
-              </div>
-            )}
+            <button
+              onClick={() => {
+                if (!selectedSize) {
+                  setError(language === "ar" ? "يرجى اختيار المقاس." : "Veuillez sélectionner une taille.");
+                  return;
+                }
+                handleAddToCart();
+                navigate('/checkout');
+              }}
+              className="w-full bg-transparent text-black border border-black h-14 font-sans text-xs font-medium tracking-widest uppercase hover:bg-[var(--color-luxury-ivory)] transition-all duration-300"
+            >
+              {language === "ar" ? "الدفع الآن" : "Passer au paiement"}
+            </button>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-gray-200">
-            <h3 className="font-bold tracking-wide mb-4">{t("product.description")}</h3>
-            <p className="text-gray-600 leading-relaxed text-sm whitespace-pre-wrap">
+          {/* Premium Trust Badges */}
+          <div className="mt-8 flex flex-col gap-3">
+            <div className="flex items-center gap-4 bg-[var(--color-luxury-cream)] border border-black/5 p-5 transition-all duration-300 hover:border-black/10">
+              <Truck className="w-5 h-5 text-black" strokeWidth={1} />
+              <span className="text-sm font-sans font-light text-black/80">
+                {language === 'ar' ? 'توصيل مجاني لطلبين فما فوق' : 'Livraison gratuite dès 2 articles'}
+              </span>
+            </div>
+            <div className="flex items-center gap-4 bg-[var(--color-luxury-cream)] border border-black/5 p-5 transition-all duration-300 hover:border-black/10">
+              <Award className="w-5 h-5 text-black" strokeWidth={1} />
+              <span className="text-sm font-sans font-light text-black/80">
+                {language === 'ar' ? 'خصم 10% على طلبك القادم' : '-10% sur votre prochaine commande'}
+              </span>
+            </div>
+            <div className="flex items-center gap-4 bg-[var(--color-luxury-cream)] border border-black/5 p-5 transition-all duration-300 hover:border-black/10">
+              <RefreshCw className="w-5 h-5 text-black" strokeWidth={1} />
+              <span className="text-sm font-sans font-light text-black/80">
+                {language === 'ar' ? 'إرجاع واستبدال سهل' : 'Retours simples'}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-16 pt-12 border-t border-black/10">
+            <h3 className="font-sans text-[10px] tracking-[0.2em] uppercase text-black/50 mb-8">{t("product.description")}</h3>
+            <p className="text-black/70 font-light leading-relaxed text-sm whitespace-pre-wrap">
               {product.description[language]}
             </p>
           </div>
@@ -313,28 +263,28 @@ export default function Product() {
       </div>
 
       {/* Related Products */}
-      <div className="mt-24 pt-16 border-t border-gray-200">
-        <h2 className="text-2xl font-medium tracking-wide mb-10 text-center">{t("product.related")}</h2>
+      <div className="mt-32 pt-24 border-t border-black/10">
+        <h2 className="text-4xl font-serif font-light text-center mb-16">{t("product.related")}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {displayProducts.filter(p => p.id !== product.id).slice(0, 4).map((p) => (
             <div key={p.id} className="group block cursor-pointer" onClick={() => navigate(`/product/${p.slug}`)}>
-              <div className="relative aspect-[3/4] overflow-hidden bg-[#F5F5F7] mb-4 rounded-2xl">
+              <div className="relative aspect-[3/4] overflow-hidden bg-[var(--color-luxury-ivory)] mb-6">
                 <ProductImage
                   color={p.colors[0]}
                   type="main"
                   alt={p.name[language]}
-                  className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0 z-10"
+                  className="w-full h-full object-cover transition-opacity duration-700 group-hover:opacity-0 absolute inset-0 z-10"
                 />
                 <ProductImage
                   color={p.colors[0]}
                   type="lifestyle"
                   alt={`${p.name[language]} angle`}
-                  className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-700"
+                  className="w-full h-full object-cover absolute inset-0 z-0 scale-105 group-hover:scale-100 transition-transform duration-1000 ease-out"
                 />
               </div>
-              <h3 className="font-bold text-[#1D1D1F] mb-1 text-lg">{p.name[language]}</h3>
+              <h3 className="font-serif text-lg text-black mb-2">{p.name[language]}</h3>
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-[#1D1D1F]">{p.price} DH</span>
+                <span className="font-sans font-medium text-black">{p.price} DH</span>
               </div>
             </div>
           ))}
